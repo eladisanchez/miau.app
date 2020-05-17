@@ -77,8 +77,25 @@ h1 {
     .btn {
         display: block;
         flex-grow: 1;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: auto 30px;
+        height: 40px;
     }
 }
+.btn-reset {
+    background-image: url("http://eladi.cat/boles/img/ico-reset.svg");
+}
+.btn-undo {
+    background-image: url("http://eladi.cat/boles/img/ico-back.svg");
+}
+.btn-newtube {
+    background-image: url("http://eladi.cat/boles/img/ico-joker.svg");
+}
+.btn-new {
+    background-image: url("http://eladi.cat/boles/img/ico-next.svg");
+}
+
 
 .nivells {
     text-align: center;
@@ -162,7 +179,7 @@ h1 {
 }
 
 .btn {
-    background: #FFF;
+    background-color: #FFF;
     border: 1px solid #000;
     color: #000;
     padding: .5em 1em;

@@ -156,7 +156,7 @@ class Level {
     }
 
     addCookie() {
-        let cookies = this.getCookies()+parseInt(this.points());
+        let cookies = this.getCookies()+parseInt(game.points());
         localStorage.setItem('cookies',cookies)
         jQuery.post('http://eladisanchez.com/api/index.php',{
             nom: localStorage.getItem('user'),
@@ -176,7 +176,7 @@ class Level {
                     10: '10 galetamens\nEts el Déu de les galetes!'
                 }
                 setTimeout(()=>{
-                    jQuery('<div class="winner"><div><h2>Molt bé</h2><p>Has guanyat '+galetext[this.points()]+'</p><p class="galeta">🍪</p></div></div>').appendTo('body').fadeIn();
+                    jQuery('<div class="winner"><div><h2>Molt bé</h2><p>Has guanyat '+galetext[game.points()]+'</p><p class="galeta">🍪</p></div></div>').appendTo('body').fadeIn();
                 },500)
                 jQuery(".cookies").html(res.galetes)
             } else {
