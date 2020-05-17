@@ -78,7 +78,7 @@ class Level {
             let originBall = this.tubes[origin].lastBall();
             let destinyBall = this.tubes[destiny].lastBall();
 
-            if(!destinyBall || destinyBall == originBall) {
+            if(!this.tubes[destiny].balls.length || destinyBall == originBall) {
 
                 this.tubes[destiny].pushBall(originBall)
                 this.tubes[origin].popBall()
