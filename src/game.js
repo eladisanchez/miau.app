@@ -171,12 +171,25 @@ class Level {
         return this.level
     }
 
+    arrayTubes() {
+        return this.tubes.map(tube=>{return tube.balls})
+    }
+
+    checkSteps() {
+        jQuery.post('http://eladisanchez.com/api/checkSteps.php',{
+            tubes: game.arrayTubes()
+        },function(){
+            
+        });
+    }
+
 }
 
 window.game = new Level();
 
 game.createLevel();
 
+/*
 document.body.addEventListener('click', playAudio);
 function playAudio() {
     var audio = new Audio('topcat.mp3');
@@ -187,6 +200,7 @@ function playAudio() {
     audio.play();
     document.body.removeEventListener('click', playAudio);
 }
+*/
 
 jQuery(document).ready(function($){
 
@@ -266,7 +280,7 @@ jQuery(document).ready(function($){
         var $ranking = $('<div class="ranking-list"></div>');
         $.getJSON('http://eladisanchez.com/api/index.php',function(res){
             $.each(res,function(i,e){
-                $ranking.append('<p><strong'+(e.nom==user&&e.nom!='Ningú'?' class="tu"':'')+'>'+e.nom+':</strong> '+e.galetes+' galetes</p>')
+                $ranking.append('<p><strong'+(e.nom==user&&e.nom!='Ningú'?' class="tu"':'')+'>'+parseInt(i+1)+'. '+e.nom+'</strong> '+e.galetes+' galetes</p>')
             })
             $(".ranking").append($ranking).fadeIn();
         })
