@@ -94,7 +94,7 @@ class Level {
                         4: '4 galetones',
                         5: '5 galetaques',
                         6: '6 galetotes',
-                        9: '9 galetamens',
+                        8: '8 galetamens',
                         10: '10 galetamens\nEts el Déu de les galetes!'
                     }
                     jQuery('<div class="winner"><div><h2>Molt bé</h2><p>Has guanyat '+galetext[this.points()]+'</p><p class="galeta">🍪</p></div></div>').appendTo('body').fadeIn();
@@ -211,7 +211,7 @@ class Level {
                 document.getElementById("countdown").style.display = "none";
             } else {
                 document.getElementById("countdown").style.display = "block";
-                document.getElementById("countdown").innerHTML = "Multigaleta x2🍪: " + game.timeleft + " segons";
+                document.getElementById("countdown").innerHTML = "Multigaleta x2 🍪 " + game.timeleft + " segons";
             }
             game.timeleft -= 1;
         }, 1000);
@@ -228,7 +228,7 @@ jQuery(document).ready(function($){
 
     var user = localStorage.getItem('user')
     if(!user) {
-        user = prompt('Hola, qui polles ets?');
+        user = prompt('Hola, qui ets?');
         if(!user) {
             user = 'Ningú';
         }

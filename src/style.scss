@@ -161,6 +161,16 @@ h1 {
     }
 }
 
+#countdown {
+    display: inline-block;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: #FFF;
+    background: #000;
+    font-weight: bold;
+}
+
 .winner {
     display: none;
     position: fixed;
