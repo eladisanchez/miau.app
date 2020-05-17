@@ -1,0 +1,215 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;700&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+}
+body {
+    margin: 0 auto;
+    background-color: #666;
+    background-size: 350px auto;
+    background-position: center;
+    background-image: url("http://eladi.cat/boles/email-pattern.png");
+    font-size: 18px;
+    text-align: center;
+    color: #333;
+    font-family: 'Rubik', sans-serif;
+    padding-bottom: 80px;
+}
+
+input,button {
+    font-family: 'Rubik', sans-serif;
+    font-size: 18px;
+}
+
+.site-content {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.icona {
+    display: block;
+    margin: 0 auto;
+    width: 400px;
+    height: auto;
+}
+h1 {
+    background: #000;
+    padding: 5px 0;
+    color: #FFF;
+    font-size: 14px;
+    letter-spacing: 8px;
+    text-align: center;
+    margin: 0;
+}
+
+.hud {
+    background: #FFF;
+    color: #000;
+    border: 1px #000 solid;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    border-radius: 0 0 20px 20px
+}
+
+.nivells {
+    text-align: center;
+    span {
+        cursor: pointer;
+        border-radius: 20px;
+        font-weight: bold;
+        padding: 4px 10px;
+        &.current {
+            background: #FFF;
+            border: 1px solid #000;
+            color: #333;
+        }
+    }
+}
+
+.game {
+    text-align: center;
+    margin: 0 auto;
+    width: 400px;
+    padding: 20px;
+}
+.tube {
+    display: inline-block;
+    border-style: solid;
+    border-color: #333;
+    border-width: 0 1px 1px 1px;
+    border-radius: 0 0 30px 30px;
+    box-shadow: 0 3px 2px 2px rgba(#bbb,.5);
+    margin: 8px;
+    padding: 4px;
+    width: 44px;
+    height: 160px;
+    position: relative;
+    cursor: pointer;
+    transition: .2s ease all;
+    .ball {
+        position: absolute;
+        left: 5px;
+        //box-shadow: 0 0 1px 1px #FFF;
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+        border-radius: 30px;
+        padding-top: 6px;
+        color: rgba(#000,.3);
+        &.color0 { background: #E71F1F; }
+        &.color1 { background: #355FDC; }
+        &.color2 { background: #85E631; }
+        &.color3 { background: #FBDD23; }
+        &.color4 { background: #B622DC; }
+        &.color5 { background: #F37D26; }
+        &.color6 { background: #196E2A; }
+        &.color7 { background: #8D5C5C; }
+        &.color8 { background: #FC4F79; }
+        &.color9 { background: #61CBEE }
+        &.color10 { background: gray }
+        &.color11 { background: rgb(32, 26, 22); color: rgba(#FFF,.3); }
+        &:nth-child(1) { bottom: 4px; }
+        &:nth-child(2) { bottom: 38px; }
+        &:nth-child(3) { bottom: 72px; }
+        &:nth-child(4) { bottom: 106px; }
+        transition: .2s ease all;
+    }
+    &.checked {
+        background: rgba(#FFF,.25);
+        .ball:last-child {
+            transform: translateY(-22px);
+        }
+    }
+    &.completed {
+        background: rgba(yellow,.5)
+    }
+}
+
+.btn {
+    background: #FFF;
+    border: 1px solid #000;
+    color: #000;
+    padding: .5em 1em;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 0 2px 6px 2px;
+    border-radius: 5px;
+    &:disabled {
+        opacity: .5;
+    }
+}
+
+.winner {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(#000,.5);
+    color: #FFF;
+    z-index: 100;
+    div {
+        h2,p {
+            margin: 0;
+        }
+        p {
+            color: #666;
+        }
+        font-size:22px;
+        width: 300px;
+        height: 300px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #000;
+        border-radius: 200px;
+        padding-top: 70px;
+    }
+    .galeta {
+        margin: 0;
+        font-size: 80px;
+    }
+}
+
+.ranking {
+    display: none;
+    position: fixed;
+    overflow-y: auto;
+    top: 0;
+    left: 50%;
+    margin-left: -200px;
+    width: 400px;
+    background: #FFF;
+    color: #333;
+    padding: 30px;
+    height: 100vh;
+    cursor: pointer;
+    h2 {
+        margin-bottom: 0;
+    }
+    P.top25 {
+        color: #666;
+        font-size: 15px;
+        margin-bottom: 1.5em;
+    }
+    p {
+        margin: 0;
+    }
+    .tu {
+        color: orangered;
+    }
+}
+
+body.darkmode {
+    background-image: url("http://eladi.cat/boles/darkmode.png");
+    color: #FFF;
+}
