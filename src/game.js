@@ -73,28 +73,30 @@ class Level {
             let destinyBall = this.tubes[destiny].lastBall();
 
             if(!destinyBall || destinyBall == originBall) {
+
                 this.tubes[destiny].pushBall(originBall)
                 this.tubes[origin].popBall()
-            }
 
-            this.steps.push([origin,destiny]);
+                this.steps.push([origin,destiny]);
 
-            if(this.tubes.filter(t=>t.completed==1).length==this.balls.length/4) {
-                var galetext = {
-                    0: 'un aplauso',
-                    1: 'una galeteta',
-                    2: 'dues galetes',
-                    3: '3 galetaques'
+                if(this.tubes.filter(t=>t.completed==1).length==this.balls.length/4) {
+                    var galetext = {
+                        0: 'un aplauso',
+                        1: 'una galeteta',
+                        2: 'dues galetes',
+                        3: '3 galetaques'
+                    }
+                    jQuery('<div class="winner"><div><h2>Molt bé</h2><p>Has guanyat '+galetext[this.points()]+'</p><p class="galeta">🍪</p></div></div>').appendTo('body').fadeIn();
+                    this.addCookie()
+                    jQuery.post('http://eladisanchez.com/api/index.php',{
+                        nom: localStorage.getItem('user'),
+                        galetes: game.getCookies()
+                    });
                 }
-                jQuery('<div class="winner"><div><h2>Molt bé</h2><p>Has guanyat '+galetext[this.points()]+'</p><p class="galeta">🍪</p></div></div>').appendTo('body').fadeIn();
-                this.addCookie()
-                jQuery.post('http://eladisanchez.com/api/index.php',{
-                    nom: localStorage.getItem('user'),
-                    galetes: game.getCookies()
-                });
-            }
 
-            this.echo()
+                this.echo()
+
+            }
 
         }
         
@@ -290,6 +292,14 @@ jQuery(document).ready(function($){
         $(this).fadeOut(400,function(){
             $(".ranking-list").remove();
         });
+    })
+
+    $(".btn-darkmode").on("click",function(){
+        $("body").toggleClass("darkmode");
+    })
+
+    $(".btn-dracmode").on("click",function(){
+        $("body").toggleClass("dracmode");
     })
 
 
