@@ -3,6 +3,7 @@
 * {
     box-sizing: border-box;
     touch-action: manipulation;
+    -webkit-font-smoothing: antialiased;
 }
 
 html {
@@ -15,7 +16,7 @@ body {
     background-color: #666;
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: bottom center;
+    background-position: center top;
     background-attachment: fixed;
     background-image: url("http://eladi.cat/boles/gatete-l.jpg");
     font-size: 18px;
@@ -46,10 +47,11 @@ h1 {
     background: #000;
     padding: 5px 0;
     color: #FFF;
-    font-size: 14px;
+    font-size: 15px;
     letter-spacing: 8px;
     text-align: center;
     margin: 0;
+    text-transform: uppercase;
 }
 
 .hud {
@@ -115,11 +117,11 @@ h1 {
         height: 32px;
         border-radius: 30px;
         padding-top: 6px;
-        color: rgba(#000,.3);
+        color: rgba(#FFF,.3);
         &.color0 { background: #E71F1F; }
         &.color1 { background: #355FDC; }
-        &.color2 { background: #85E631; }
-        &.color3 { background: #FBDD23; }
+        &.color2 { background: #85E631; color: rgba(#000,.3);}
+        &.color3 { background: #FBDD23; color: rgba(#000,.3);}
         &.color4 { background: #B622DC; }
         &.color5 { background: #F37D26; }
         &.color6 { background: #196E2A; }
@@ -127,7 +129,7 @@ h1 {
         &.color8 { background: #FC4F79; }
         &.color9 { background: #61CBEE }
         &.color10 { background: gray }
-        &.color11 { background: rgb(32, 26, 22); color: rgba(#FFF,.3); }
+        &.color11 { background: rgb(32, 26, 22); }
         &:nth-child(1) { bottom: 4px; }
         &:nth-child(2) { bottom: 38px; }
         &:nth-child(3) { bottom: 72px; }
