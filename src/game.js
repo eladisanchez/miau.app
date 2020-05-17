@@ -97,7 +97,9 @@ class Level {
                         8: '8 galetamens',
                         10: '10 galetamens\nEts el Déu de les galetes!'
                     }
-                    jQuery('<div class="winner"><div><h2>Molt bé</h2><p>Has guanyat '+galetext[this.points()]+'</p><p class="galeta">🍪</p></div></div>').appendTo('body').fadeIn();
+                    setTimeout(()=>{
+                        jQuery('<div class="winner"><div><h2>Molt bé</h2><p>Has guanyat '+galetext[this.points()]+'</p><p class="galeta">🍪</p></div></div>').appendTo('body').fadeIn();
+                    },500)
                     this.addCookie()
                     jQuery.post('http://eladisanchez.com/api/index.php',{
                         nom: localStorage.getItem('user'),
@@ -259,7 +261,7 @@ jQuery(document).ready(function($){
     // Afegir proveta
     $(".btn-newtube").on("click",function(){
         if(game.cheat) {
-            alert("Ja l'has fet servir, puta")
+            alert("Ja l'has fet servir!")
             return false;
         }
         game.addTube();
