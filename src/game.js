@@ -192,18 +192,6 @@ window.game = new Level();
 
 game.createLevel();
 
-/*
-document.body.addEventListener('click', playAudio);
-function playAudio() {
-    var audio = new Audio('topcat.mp3');
-    audio.addEventListener('ended', function() {
-        this.currentTime = 0;
-        this.play();
-    }, false);
-    audio.play();
-    document.body.removeEventListener('click', playAudio);
-}
-*/
 
 jQuery(document).ready(function($){
 
@@ -221,7 +209,8 @@ jQuery(document).ready(function($){
     $(".cookies").html(game.getCookies())
 
     // Clicar provetes
-    jQuery("body").on("click",".tube",function(){
+    var eventBoles = 'ontouchstart' in document.documentElement ? 'touchstart' : 'click'
+    jQuery("body").on(eventBoles,".tube",function(){
         if($(this).hasClass("checked")){
             $(this).removeClass("checked")
             return false;

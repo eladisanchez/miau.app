@@ -4,13 +4,15 @@
   "description": "",
   "scripts": {
     "watch": "npx webpack --watch",
-    "build": "npx webpack"
+    "build": "npx webpack",
+    "deploy": "node deploy"
   },
   "private": true,
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "ftp-deploy": "^2.3.7",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "webpack": "^4.43.0",
