@@ -10,6 +10,16 @@ function funcionetaDelMarc() {
 
     $tubes = $_POST["tubes"];
 
+    $tubes = [
+        [1,2,3],
+        [3,7,9,4],
+        [1,9,4],
+        [6,2,3,3],
+        [8,6],
+        [],
+        []
+    ];
+
     // COSES
 
     return $resultat;
