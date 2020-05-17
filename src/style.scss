@@ -13,9 +13,11 @@ html {
 body {
     margin: 0 auto;
     background-color: #666;
-    background-size: 350px auto;
-    background-position: center;
-    background-image: url("http://eladi.cat/boles/email-pattern.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    background-attachment: fixed;
+    background-image: url("http://eladi.cat/boles/gatete-l.jpg");
     font-size: 18px;
     text-align: center;
     color: #333;
@@ -76,8 +78,10 @@ h1 {
 }
 
 .game {
+    background: rgba(#FFF,.7);
+    border-radius: 15px;
     text-align: center;
-    margin: 0 auto;
+    margin: 0 auto 15px auto;
     width: 400px;
     padding: 20px;
     transition: 1s ease all;
@@ -231,8 +235,11 @@ h1 {
 }
 
 body.darkmode {
-    background-image: url("http://eladi.cat/boles/darkmode.png");
+    background-image: url("http://eladi.cat/boles/gatete-d.jpg");
     color: #FFF;
+    .game {
+        background: rgba(#000,.7);
+    }
 }
 
 body.dracmode {
