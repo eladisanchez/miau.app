@@ -86,25 +86,7 @@ class Level {
                 this.steps.push([origin,destiny]);
 
                 if(this.tubes.filter(t=>t.completed==1).length==this.balls.length/4) {
-                    var galetext = {
-                        0: 'un aplauso',
-                        1: 'una galeteta',
-                        2: 'dues galetetes',
-                        3: 'tres galetes',
-                        4: '4 galetones',
-                        5: '5 galetaques',
-                        6: '6 galetotes',
-                        8: '8 galetamens',
-                        10: '10 galetamens\nEts el Déu de les galetes!'
-                    }
-                    setTimeout(()=>{
-                        jQuery('<div class="winner"><div><h2>Molt bé</h2><p>Has guanyat '+galetext[this.points()]+'</p><p class="galeta">🍪</p></div></div>').appendTo('body').fadeIn();
-                    },500)
                     this.addCookie()
-                    jQuery.post('http://eladisanchez.com/api/index.php',{
-                        nom: localStorage.getItem('user'),
-                        galetes: game.getCookies()
-                    });
                 }
 
                 this.echo()
@@ -176,7 +158,31 @@ class Level {
     addCookie() {
         let cookies = this.getCookies()+parseInt(this.points());
         localStorage.setItem('cookies',cookies)
-        jQuery(".cookies").html(cookies)
+        jQuery.post('http://eladisanchez.com/api/index.php',{
+            nom: localStorage.getItem('user'),
+            galetes: game.getCookies()
+        },function(res){
+            console.log(res);
+            if(res) {
+                var galetext = {
+                    0: 'un aplauso',
+                    1: 'una galeteta',
+                    2: 'dues galetetes',
+                    3: 'tres galetes',
+                    4: '4 galetones',
+                    5: '5 galetaques',
+                    6: '6 galetotes',
+                    8: '8 galetamens',
+                    10: '10 galetamens\nEts el Déu de les galetes!'
+                }
+                setTimeout(()=>{
+                    jQuery('<div class="winner"><div><h2>Molt bé</h2><p>Has guanyat '+galetext[this.points()]+'</p><p class="galeta">🍪</p></div></div>').appendTo('body').fadeIn();
+                },500)
+                jQuery(".cookies").html(res.galetes)
+            } else {
+                alert("No facis trampes, cochinoto!");
+            }
+        });
     }
 
     points() {
@@ -309,7 +315,7 @@ jQuery(document).ready(function($){
         var $ranking = $('<div class="ranking-list"></div>');
         $.getJSON('http://eladisanchez.com/api/index.php',function(res){
             $.each(res,function(i,e){
-                $ranking.append('<p><strong'+(e.nom==user&&e.nom!='Ningú'?' class="tu"':'')+'>'+parseInt(i+1)+'. '+e.nom+'</strong> '+e.galetes+' galetes</p>')
+                $ranking.append('<p><span class="pos">'+parseInt(i+1)+'. </span>'+'<strong'+(e.nom==user&&e.nom!='Ningú'?' class="tu"':'')+'>'+e.nom+'</strong> '+e.galetes+' '+(e.updated?'<small>'+e.updated+'</small></p>':''));
             })
             $(".ranking").append($ranking).fadeIn();
         })
