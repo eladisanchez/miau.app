@@ -1,4 +1,5 @@
 import jQuery from 'jquery'
+import { playPauseAudio } from './music'
 
 class Tube {
     constructor() {
@@ -242,6 +243,10 @@ jQuery(document).ready(function($){
             return false;
         }
         game.addTube();
+    })
+
+    $(".btn-playpause").on("click",function(){
+        playPauseAudio();
     })
 
     $(".btn-undo").on("click",function(){
