@@ -1,6 +1,6 @@
 var audio = new Audio('topcat.mp3');
 
-export function playPauseAudio() {
+export function playPauseMusic() {
     if (audio.paused) {
         audio.addEventListener('ended', loopMusic, false);
         audio.play();

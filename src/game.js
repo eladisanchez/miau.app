@@ -1,5 +1,5 @@
 import jQuery from 'jquery'
-import { playPauseAudio } from './music'
+import { playPauseMusic as playPauseMusic } from './music'
 
 class Tube {
     constructor() {
@@ -45,6 +45,9 @@ class Level {
                 tubes: 14
             }
         }
+        this.multi = true
+        this.timeleft = 40
+        this.multiTimer
     }
 
     createLevel(level=2) {
@@ -53,6 +56,7 @@ class Level {
         this.steps = []
         this.cheat = false;
         this.level = level;
+        this.multi = true;
         for (let i = 0; i < this.levels[level].tubes; i++) {
             this.tubes.push(new Tube())
         }
@@ -64,6 +68,7 @@ class Level {
         this.balls.sort( () => Math.random() - 0.5);
         this.setBalls()
         this.echo()
+        this.startTimer()
     }
 
     changeBall(origin,destiny) {
@@ -84,8 +89,13 @@ class Level {
                     var galetext = {
                         0: 'un aplauso',
                         1: 'una galeteta',
-                        2: 'dues galetes',
-                        3: '3 galetaques'
+                        2: 'dues galetetes',
+                        3: 'tres galetes',
+                        4: '4 galetones',
+                        5: '5 galetaques',
+                        6: '6 galetotes',
+                        9: '9 galetamens',
+                        10: '10 galetamens\nEts el Déu de les galetes!'
                     }
                     jQuery('<div class="winner"><div><h2>Molt bé</h2><p>Has guanyat '+galetext[this.points()]+'</p><p class="galeta">🍪</p></div></div>').appendTo('body').fadeIn();
                     this.addCookie()
@@ -168,10 +178,15 @@ class Level {
     }
 
     points() {
-        if(this.cheat) {
-            return this.level-1
+        let pointsByLevel  = {
+            1: 1,
+            2: 3,
+            3: 5
         }
-        return this.level
+        var points = pointsByLevel[this.level]
+        if (this.cheat) points -= 1
+        if (this.multi) points *= 2
+        return points
     }
 
     arrayTubes() {
@@ -184,6 +199,22 @@ class Level {
         },function(){
             
         });
+    }
+
+    startTimer() {
+        this.timeleft = this.level * 40
+        clearInterval(this.multiTimer)
+        this.multiTimer = setInterval(function(){
+            if(game.timeleft <= 0){
+                game.multi = false
+                clearInterval(game.multiTimer);
+                document.getElementById("countdown").style.display = "none";
+            } else {
+                document.getElementById("countdown").style.display = "block";
+                document.getElementById("countdown").innerHTML = "Multigaleta x2🍪: " + game.timeleft + " segons";
+            }
+            game.timeleft -= 1;
+        }, 1000);
     }
 
 }
@@ -235,7 +266,7 @@ jQuery(document).ready(function($){
     })
 
     $(".btn-playpause").on("click",function(){
-        playPauseAudio();
+        playPauseMusic();
     })
 
     $(".btn-undo").on("click",function(){
@@ -295,7 +326,6 @@ jQuery(document).ready(function($){
     $(".btn-dracmode").on("click",function(){
         $("body").toggleClass("dracmode");
     })
-
 
 });
 
