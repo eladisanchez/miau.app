@@ -31,6 +31,7 @@ class Level {
         this.steps = []
         this.cheat = false;
         this.level = 2
+        this.dracmode = false
         this.levels = {
             1: {
                 colors: 7,
@@ -333,6 +334,13 @@ jQuery(document).ready(function($){
 
     $(".btn-dracmode").on("click",function(){
         $("body").toggleClass("dracmode");
+        if (game.dracmode) {
+            document.getElementById("media").src = "http://eladi.cat/boles/joan.jpg"
+            game.dracmode = false;
+        } else {
+            document.getElementById("media").src = "drac.gif"
+            game.dracmode = true;
+        }
     })
 
 });
