@@ -1,32 +1,38 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+  <div>
+    <header>
+      <div class="container">
+        <router-link :to="'/'">miau.app</router-link>
+        <span class="userinfo">
+          <span class="user">{{ user }}</span>
+          &nbsp;🍪
+          <span class="cookies">{{ cookies }}</span>
+        </span>
+      </div>
+    </header>
+
+    <transition name="fade" mode="out-in">
+      <router-view></router-view>
+    </transition>
+
+    <footer>
+      <div class="container">
+        Creat per
+        <a href>miau;</a>
+        | 
+        <router-link :to="'/ranking'">Rànquing</router-link>
+      </div>
+    </footer>
+
   </div>
 </template>
-
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script>
+export default {
+  name: 'App',
+  computed: {
+    user() { return this.$store.getters.user },
+    cookies() { return this.$store.getters.cookies }
+  },
 }
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
+</script>
+<style lang="scss" src="./scss/style.scss"></style>
