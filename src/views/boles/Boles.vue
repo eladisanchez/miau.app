@@ -19,7 +19,7 @@
       </nav>
     </div>
 
-    <div class="game">
+    <div class="game pad">
       <div
         class="tube"
         :data-tube="i"
@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <div class="controls">
+    <div class="controls pad">
       <button class="btn btn-reset" @click="reset()"></button>
       <button class="btn btn-undo" @click="undo()"></button>
       <button class="btn btn-newtube" @click="addTube()"></button>
@@ -52,8 +52,8 @@
   </section>
 </template>
 <script>
-import Tube from "./tube";
-import Ball from "./Ball.vue"
+import Tube from './tube';
+import Ball from './Ball'
 export default {
   components: {
     'ball': Ball
@@ -263,8 +263,7 @@ export default {
     flex-grow: 1;
     cursor: pointer;
     border-radius: 5px 5px 0 0;
-    font-weight: bold;
-    padding: 4px 10px;
+    padding: 6px 10px;
     color: #fff;
     &.current {
       background: #fff;

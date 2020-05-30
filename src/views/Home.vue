@@ -1,12 +1,9 @@
 <template>
-  <section class="container">
+  <section class="container pad">
     <div :class="'cat cat'+catid"></div>
-    <p>
-      Hola, {{ user }}. Has fet caca avui?
-      <br />
-      <strong>A què vols jugar?</strong>
-    </p>
-    <router-link to="boles" class="btn-game">Les Boles de l'Eladi</router-link>
+    <h1> Hola, {{ user }}.</h1>
+    <p class="hola">Has fet caca avui? A què vols jugar?</p>
+    <router-link to="boles" class="btn-game btn">Les Boles de l'Eladi</router-link>
   </section>
 </template>
 <script>
@@ -35,8 +32,8 @@ export default {
   color: #000;
 }
 .cat {
-  height: 300px;
-  background-size: 300px 300px;
+  height: 280px;
+  background-size: 250px 250px;
   background-position: center;
   background-repeat: no-repeat;
   &.cat1 {
@@ -67,4 +64,5 @@ export default {
     background-image: url("../scss/img/gat9.svg");
   }
 }
+
 </style>

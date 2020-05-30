@@ -16,7 +16,10 @@ html {
        -moz-user-select: none; /* Old versions of Firefox */
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-tap-highlight-color: transparent;
 }
+
 body {
     margin: 0 auto;
     background-color: #FFF;
@@ -26,22 +29,31 @@ body {
     background-attachment: fixed;
     font-size: 16px;
     text-align: center;
-    color: #333;
-    font-family: 'Eina', sans-serif;
+    color: rgb(103, 110, 119);
+    font-family: 'Inter', sans-serif;
     overscroll-behavior-y: none;
 }
 
-input,button {
+input,button,.btn {
     font-family: 'Eina', sans-serif;
-    font-size: 18px;
+    letter-spacing: -.05em;
+}
+
+h1,h2,h3 {
+    color: #000;
+}
+h1,h2,h3,h4,.eina {
+    font-family: 'Eina', sans-serif;
+    letter-spacing: -.05em;
 }
 
 .container {
     width: 100%;
     max-width: 400px;
-    margin: 0 auto;
+    margin: 0 auto;   
+}
+.pad {
     padding: 0 20px;
-   
 }
 
 section {

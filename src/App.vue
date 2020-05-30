@@ -1,8 +1,8 @@
 <template>
   <div>
     <header>
-      <div class="container">
-        <router-link :to="'/'">miau.app</router-link>
+      <div class="container pad">
+        <router-link :to="'/'" class="eina">miau.app</router-link>
         <span class="userinfo">
           <span class="user">{{ user }}</span>
           &nbsp;🍪
@@ -16,7 +16,7 @@
     </transition>
 
     <footer>
-      <div class="container">
+      <div class="container pad">
         Creat per
         <a href>miau;</a>
         | 

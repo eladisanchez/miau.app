@@ -63,10 +63,12 @@ if(isset($_POST["nom"])):
     } catch(PDOException $e) {
         echo $sql . "<br>" . $e->getMessage();
     }
+
 endif;
 
 $reslang = $conn->query("SET lc_time_names = 'ca_ES'");
 //DATE_FORMAT(updated_at, '%d %M %H:%i') as 'updated'
 $res = $conn->query("SELECT userid,nom,galetes,UNIX_TIMESTAMP(updated_at) as updated FROM boles WHERE nom is not null and nom<>'Ningú' ORDER BY galetes DESC limit 30");
 echo json_encode($res->fetchAll(PDO::FETCH_ASSOC));
+
 exit;
