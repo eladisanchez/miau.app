@@ -45,29 +45,21 @@ $app->post('/api/index.php', function (Request $request, Response $response, $ar
     
     try {
 
-        if(isset($_POST["nom"])):
-            $galetes = intval($_POST["galetes"]);
-            $nom = $_POST["nom"];
-            $ip = $_SERVER["REMOTE_ADDR"];
-            $userid = $_POST["userid"];
-        else:
-            $post = json_decode($request->getBody());
-            $galetes = intval($post->galetes);
-            $nom = $post->nom;
-            $ip = $_SERVER["REMOTE_ADDR"];
-            $userid = $post->userid;
-        endif;
+        $post = json_decode($request->getBody());
+        $galetes = intval($post->galetes);
+        $nom = $post->nom;
+        $ip = $_SERVER["REMOTE_ADDR"];
+        $userid = $post->userid;
 
         $insert = $conn->prepare( "INSERT INTO boles (userid,ip,nom,galetes,created_at)
         VALUES (:userid, :ip, :nom, :galetes, NOW())
         ON DUPLICATE KEY UPDATE galetes = case when :galetes > galetes then :galetes else galetes end");
-        $insert->execute([
+        $ex = $insert->execute([
             ':userid' => $userid,
             ':ip' => $ip,
             ':nom' => $nom,
             ':galetes' => $galetes
         ]);
-
         $id = $conn->lastInsertId();
         $stmt = $conn->prepare("SELECT * FROM boles WHERE id=?");
         $stmt->execute([$id]);
@@ -75,6 +67,7 @@ $app->post('/api/index.php', function (Request $request, Response $response, $ar
         $data = json_encode($lastrow);
         $response->getBody()->write($data);
         return $response->withHeader('Content-Type', 'application/json');
+        
 
     } catch(PDOException $e) {
 

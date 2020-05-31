@@ -67,12 +67,13 @@ export default new Vuex.Store({
 		},
 
 		saveCookies({ commit, state }, cookies) {
+			commit('ADD_COOKIES', cookies);
 			fetch('/api/index.php', {
 				method: 'POST',
 				body: JSON.stringify({
 					userid: state.userId,
 					nom: state.user,
-					galetes: cookies
+					galetes: state.cookies
 				}),
 				headers: {
 					'Content-Type': 'application/json'
@@ -82,7 +83,7 @@ export default new Vuex.Store({
 					return res.json();
 				})
 				.then((json) => {
-					commit('ADD_COOKIES', json.galetes);
+					console.log(json)
 				});
 		},
 

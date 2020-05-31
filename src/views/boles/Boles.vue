@@ -39,8 +39,8 @@
     </div>
 
     <transition name="fade">
-      <div class="winner" v-if="winner">
-        <div @click="createLevel(level)">
+      <div class="winner" v-if="winner" @click="createLevel(level)">
+        <div>
           <h2>Molt bé</h2>
           <p>Has guanyat {{galetext[points]}}</p>
           <p class="galeta">🍪</p>

@@ -1,8 +1,8 @@
 <template>
-  <section class="ranking">
+  <section class="ranking" @click="close()">
     <div class="container">
     <h2>Rànquing</h2>
-    <button class="ranking-close" @click="close()"></button>
+    <button class="ranking-close"></button>
     <transition name="fade" mode="out-in">
     <div class="ranking-list" v-if="loaded">
       <p v-for="(player, i) in players" :key="'player'+i">
