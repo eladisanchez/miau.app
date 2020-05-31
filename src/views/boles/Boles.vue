@@ -1,11 +1,6 @@
 <template>
   <section class="container">
-    <div
-      class="game-header"
-      :style="{
-        'background-image': dracmode?'url(img/drac.gif)':'url(img/joan.jpg)'
-    }"
-    >
+    <div class="game-header game-header-boles">
       <h2>Les Boles de l'Eladi</h2>
 
       <transition name="fade">
@@ -25,7 +20,7 @@
         :data-tube="i"
         v-for="(tube,i) in tubes"
         :key="i"
-        @click="select(i)"
+        v-touch="select(i)"
         :class="[{checked: selected==i},{completed: tube.completed}]"
       >
         <ball v-bind:color="bola" v-for="(bola,b) in tube.balls" :key="b">{{bola}}</ball>
@@ -37,6 +32,10 @@
       <button class="btn btn-undo" @click="undo()"></button>
       <button class="btn btn-newtube" @click="addTube()"></button>
       <button class="btn btn-new" @click="createLevel(level)"></button>
+    </div>
+    <div class="controls pad">
+      <button class="btn" @click="darkmode()">Dark mode</button>
+      <button class="btn" @click="dracmode()">Drac mode</button>
     </div>
 
     <transition name="fade">
@@ -66,7 +65,6 @@ export default {
       cheat: false,
       multi: true,
       level: 2,
-      dracmode: false,
       levels: {
         1: {
           colors: 7,
@@ -95,7 +93,7 @@ export default {
         6: "6 galetotes",
         8: "8 galetamens",
         10: "10 galetamens\nEts el Déu de les galetes!"
-      }
+      },
     };
   },
   created() {
@@ -140,16 +138,18 @@ export default {
       this.startTimer();
     },
     select(ball) {
-      if (this.selected != null) {
-        if (this.selected == ball) {
-          this.selected = null;
-          return false;
+      return () => {
+        if (this.selected != null) {
+          if (this.selected == ball) {
+            this.selected = null;
+            return false;
+          } else {
+            this.changeBall(this.selected, ball);
+            this.selected = null;
+          }
         } else {
-          this.changeBall(this.selected, ball);
-          this.selected = null;
+          this.selected = ball;
         }
-      } else {
-        this.selected = ball;
       }
     },
     changeBall(origin, destiny) {
@@ -228,7 +228,26 @@ export default {
         }
         this.timeleft -= 1;
       }, 1000);
+    },
+
+    darkmode() {
+      const el = document.body;
+      if (el.classList.contains("darkmode")) {
+        el.classList.remove("darkmode")
+      } else {
+        el.classList.add("darkmode");
+      }
+    },
+
+    dracmode() {
+      const el = document.body;
+        if (el.classList.contains("dracmode")) {
+          el.classList.remove("dracmode")
+        } else {
+          el.classList.add("dracmode");
+      }
     }
+
   }
 };
 </script>

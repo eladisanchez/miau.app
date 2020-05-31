@@ -1,4 +1,4 @@
-{
+const achievements = {
     "20": "Sap escriure amb lletra lligada",
     "50": "Sap llepar-se el colze",
     "100": "Sap saltar a corda",
@@ -53,5 +53,14 @@
     "19000": "Ja té el passaport suís",
     "20000": "Ha guanyat el Nobel de la Pau",
     "21000": "Sap netejar l’historial del navegador",
-    "22000": ""
+    "22000": "Sap demanar tabac en italià",
+    "23000": "S'ha fet un blanquejament anal",
+    "24000": "Ha deixat de fumar",
+    "25000": "És el president del club de fans de la Paulina Rubio",
+    "26000": "S'ha estalviat el 50% d'una multa perquè ha pagat dins del termini",
+    "27000": "Ha perdut la virginitat",
+    "28000": "Ha creat una startup",
+    "29000": "Ha comprat uns sanjacobos congelats",
+    "30000": "Ha aconseguit superar l'addicció a aquest joc"
 }
+export default achievements

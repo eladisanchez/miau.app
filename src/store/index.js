@@ -40,15 +40,13 @@ export default new Vuex.Store({
 		}
 	},
 	actions: {
-
-		login({ commit, state }) {
+		login({ commit, state },user) {
 			// Generar una ID d'usuari si no en té
 			if (!state.userId) {
 				let randomHash = Math.random().toString(36).substr(2);
 				let timeHash = (new Date().getTime() - 1589994063336).toString(36);
 				var userId = randomHash + timeHash;
 				userId = userId.substr(userId.length - 12);
-				var user = prompt('Hola, qui ets? Escriu el teu nom per sortir al rànquing.');
 				if (user && user != 'Ningú') {
 					user = user.substring(0, 25);
 				} else {
@@ -99,7 +97,6 @@ export default new Vuex.Store({
 					commit('SET_USER_DATA', json);
 					alert('Hola ' + json.nom);
 				});
-    }
-    
+		}
 	}
 });

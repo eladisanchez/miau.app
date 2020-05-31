@@ -26,7 +26,7 @@
 
     <div class="update" v-if="updateExists">
       <div>
-        Tenim una bonica actualització per a tu!
+        <p>Tenim una bonica actualització!</p>
         <button
           class="btn-update"
           @click="refreshApp"
@@ -39,6 +39,23 @@
     <transition name="fade" mode="out-in">
       <ranking v-if="showRanking"></ranking>
     </transition>
+
+    <div class="login">
+      <div class="pad">
+        <h2>Epa! Qui ets?</h2>
+        <p>
+          Si ets nou, escriu el teu nom:
+          <input model="username">
+          <button class="btn" @click="register()">A jugar!</button>
+        </p>
+        <hr>
+        <p>
+          Tens un codi?<br>
+          <input model="code">
+          <button class="btn" @click="login()">Login</button>
+        </p>
+      </div>
+    </div>
 
   </div>
 </template>
@@ -54,7 +71,9 @@ export default {
       showRanking: false,
       refreshing: false,
       registration: null,
-      updateExists: false
+      updateExists: false,
+      username: '',
+      code: ''
     };
   },
   computed: {
@@ -81,23 +100,28 @@ export default {
       if (!this.registration || !this.registration.waiting) { return; }
       this.registration.waiting.postMessage('skipWaiting');
     },
-    exportUser() {
-      alert("Vols jugar amb el teu usuari des d'un altre mòbil o ordinador? Vés a miau.app, clica a 'importa' i enganxa-hi aquest codi: "+this.userId)
-    },
-    importUser() {
-      var userid = prompt("Enganxa el teu codi d'usuari:");
-      this.$store.dispatch('loadUserData',userid)
-    },
     exit() {
       if(window.confirm("Que perdràs les galetes!")) {
         localStorage.clear()
         window.location.reload();
       }
+    },
+    register() {
+      if(this.username) {
+        this.$store.dispatch('login',this.username)
+      } else {
+        alert("No siguis tímid, home!")
+      }
+    },
+    login() {
+      if(this.code) {
+        this.$store.loadUserData('login',this.code)
+      } else {
+        alert("No siguis tímid, home!")
+      }
     }
   },
   created() {
-
-    this.$store.dispatch('login')
 
     document.addEventListener("swUpdated", this.showRefreshUI, { once: true });
     navigator.serviceWorker.addEventListener("controllerchange", () => {
@@ -109,4 +133,44 @@ export default {
   }
 };
 </script>
-<style lang="scss" src="./scss/style.scss"></style>
+<style lang="scss">
+.login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #FFF;
+  width: 100%;
+  height: 100%;
+  z-index: 101;
+  h2 {
+    margin-top: 0;
+  }
+  .pad {
+    height: auto;
+  }
+  input {
+    width: 100%;
+    padding: 5px 10px;
+    border: 2px solid #000;
+    background: #eee;
+    color: #000;
+    border-radius: 3px;
+    font-weight: bold;
+    text-align: center;
+    font-size: 20px;
+  }
+  hr {
+    margin: 20px 0;
+      border: 0;
+      height: 1px;
+      background: #999;
+    }
+    .btn {
+      font-size: 15px;
+      margin-top: 10px;
+    }
+}
+</style>

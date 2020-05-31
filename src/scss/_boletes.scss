@@ -67,6 +67,9 @@
     position: relative;
     cursor: pointer;
     transition: .2s ease all;
+    .darkmode & {
+        border-color: #FFF;
+    }
     .ball {
         position: absolute;
         left: 4px;
@@ -185,7 +188,14 @@ body.darkmode {
     }
 }
 
+.game-header-boles {
+    background-image: url("img/joan.jpg");
+}
+
 body.dracmode {
+    .game-header-boles {
+        background-image: url("img/drac.gif");
+    }
     .game {
         transform: rotate(180deg);
     }

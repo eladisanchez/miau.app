@@ -1,9 +1,12 @@
 <template>
   <section class="container pad">
-    <div :class="'cat cat'+catid"></div>
+    <router-link :class="'cat cat'+catid" :to="'/cat'">
+      <span>Clica'm, baby.</span>
+    </router-link>
     <h1> Hola, {{ user }}.</h1>
     <p class="hola">Has fet caca avui? A què vols jugar?</p>
     <router-link to="boles" class="btn-game btn">Les Boles de l'Eladi</router-link>
+    <p class="aviat">Aviat hi haurà més jocs per anar a fer caca!</p>
   </section>
 </template>
 <script>
@@ -31,11 +34,41 @@ export default {
   text-decoration: none;
   color: #000;
 }
+.aviat {
+  color: #999;
+}
 .cat {
+  display: block;
   height: 280px;
   background-size: 250px 250px;
   background-position: center;
   background-repeat: no-repeat;
+  position: relative;
+  span {
+    background: #000;
+    border-radius: 4px;
+    transform: translateX(-50%);
+    color: #FFF;
+    position: absolute;
+    letter-spacing: 0;
+    font-size: 12px;
+    left: 50%;
+    top: 10px;
+    padding: 4px 10px;
+    &:after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 10px 15px 0 15px;
+      border-color: #000 transparent transparent transparent;
+      position: absolute;
+      left: 50%;
+      margin-left: -15px;
+      bottom: -10px;
+    }
+  }
   &.cat1 {
     background-image: url("../scss/img/gat1.svg");
   }

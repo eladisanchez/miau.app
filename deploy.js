@@ -11,8 +11,8 @@ var config = {
 	localRoot: __dirname + '/dist',
 	remoteRoot: '/web/',
 	//include: ['index.html','bundle.js','manifest.json','service-worker.js'],
-	include: ['*'],
-    exclude: ['api'],
+	include: ["*", ".*"],
+    //exclude: ['dist/api'],
     deleteRemote: true,
     forcePasv: true
 }
