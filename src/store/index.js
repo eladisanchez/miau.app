@@ -37,6 +37,12 @@ export default new Vuex.Store({
 			localStorage.setItem('cookies', payload.galetes);
 			localStorage.setItem('user', payload.nom);
 			localStorage.setItem('userId', payload.userid);
+		},
+		CLEAR_USER_DATA(state) {
+			localStorage.clear();
+			state.cookies = 0;
+			state.user = null;
+			state.userId = null;
 		}
 	},
 	actions: {

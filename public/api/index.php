@@ -45,18 +45,18 @@ $app->post('/api/index.php', function (Request $request, Response $response, $ar
     
     try {
 
-        /*
-        $post = json_decode($request->getBody());
-        $galetes = intval($post->galetes);
-        $nom = $post->nom;
-        $ip = $_SERVER["REMOTE_ADDR"];
-        $userid = $post->userid;
-        */
-        $galetes = intval($_POST["galetes"]);
-        $nom = $_POST["nom"];
-        $ip = $_SERVER["REMOTE_ADDR"];
-        $userid = $_POST["userid"];
-
+        if(isset($_POST["nom"])):
+            $galetes = intval($_POST["galetes"]);
+            $nom = $_POST["nom"];
+            $ip = $_SERVER["REMOTE_ADDR"];
+            $userid = $_POST["userid"];
+        else:
+            $post = json_decode($request->getBody());
+            $galetes = intval($post->galetes);
+            $nom = $post->nom;
+            $ip = $_SERVER["REMOTE_ADDR"];
+            $userid = $post->userid;
+        endif;
 
         $insert = $conn->prepare( "INSERT INTO boles (userid,ip,nom,galetes,created_at)
         VALUES (:userid, :ip, :nom, :galetes, NOW())

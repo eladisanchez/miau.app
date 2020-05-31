@@ -1,4 +1,5 @@
 module.exports = {
+	css: {sourceMap: true},
 	pwa: {
 		name: 'Miau.app',
 		themeColor: '#000000',
@@ -9,7 +10,10 @@ module.exports = {
         workboxPluginMode: 'InjectManifest',
         workboxOptions: {
             swSrc: './src/sw.js',
-            swDest: 'service-worker.js',
+			swDest: 'service-worker.js',
+			exclude: [
+				/^.*api\/.*$/,
+			]
         },
 	}
 };

@@ -18,9 +18,7 @@
     <footer>
       <div class="container pad">
         <a @click="toggleRanking()">Rànquing</a>
-        <a @click="exportUser()" v-if="userId">Exporta</a>
-        <a @click="importUser()">Importa</a>
-        <a @click="exit()">Surt</a>
+        <router-link :to="'/user'">Usuari</router-link>
       </div>
     </footer>
 
@@ -40,18 +38,18 @@
       <ranking v-if="showRanking"></ranking>
     </transition>
 
-    <div class="login">
+    <div class="login" v-if="!userId">
       <div class="pad">
         <h2>Epa! Qui ets?</h2>
         <p>
           Si ets nou, escriu el teu nom:
-          <input model="username">
+          <input v-model="username">
           <button class="btn" @click="register()">A jugar!</button>
         </p>
         <hr>
         <p>
           Tens un codi?<br>
-          <input model="code">
+          <input v-model="code">
           <button class="btn" @click="login()">Login</button>
         </p>
       </div>
@@ -100,12 +98,6 @@ export default {
       if (!this.registration || !this.registration.waiting) { return; }
       this.registration.waiting.postMessage('skipWaiting');
     },
-    exit() {
-      if(window.confirm("Que perdràs les galetes!")) {
-        localStorage.clear()
-        window.location.reload();
-      }
-    },
     register() {
       if(this.username) {
         this.$store.dispatch('login',this.username)
@@ -115,7 +107,7 @@ export default {
     },
     login() {
       if(this.code) {
-        this.$store.loadUserData('login',this.code)
+        this.$store.dispatch('loadUserData',this.code)
       } else {
         alert("No siguis tímid, home!")
       }

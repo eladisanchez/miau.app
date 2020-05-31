@@ -60,6 +60,7 @@ h1,h2,h3,h4,.eina {
 
 section {
     min-height: calc(100vh - 96px);
+    padding-bottom: 20px;
 }
 
 header {
@@ -119,6 +120,7 @@ footer {
     line-height: 48px;
     vertical-align: middle;
     a {
+        text-decoration: none;
         cursor: pointer;
         color: #FFF;
         font-weight: bold;
