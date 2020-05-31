@@ -52,7 +52,7 @@
   </section>
 </template>
 <script>
-import Tube from './tube';
+import Tube from './tube'
 import Ball from './Ball'
 export default {
   components: {
@@ -209,28 +209,13 @@ export default {
     },
 
     win() {
+
+      clearInterval(this.multiTimer);
+      this.$store.dispatch('saveCookies',this.points)
       setTimeout(() => {
-        this.$store.commit("addCookies", this.points);
         this.winner = true;
       }, 100);
 
-      fetch("https://miau.app/api/index.php", {
-        method: "POST",
-        body: JSON.stringify({
-          userid: this.$store.state.userId,
-          nom: this.$store.state.userId,
-          galetes: this.points
-        }),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }).then(res => {
-        console.log(res);
-        if (res.error) {
-          alert(res.error);
-        }
-
-      });
     },
 
     startTimer() {

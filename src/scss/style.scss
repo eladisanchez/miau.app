@@ -29,7 +29,7 @@ body {
     background-attachment: fixed;
     font-size: 16px;
     text-align: center;
-    color: rgb(103, 110, 119);
+    color: #000;
     font-family: 'Inter', sans-serif;
     overscroll-behavior-y: none;
 }
@@ -79,6 +79,7 @@ header {
         font-weight: bold;
         color: #FFF;
         text-decoration: none;
+        font-size: 20px
     }
 }
 
@@ -100,13 +101,18 @@ header {
 }
 
 footer {
+    text-align: center;
+    background: #000;
+    color: #FFF;
     height: 48px;
     line-height: 48px;
     vertical-align: middle;
-    text-align: left;
     a {
-        color: #000;
+        cursor: pointer;
+        color: #FFF;
         font-weight: bold;
+        display: inline-block;
+        margin: 0 10px;
     }
 }
 
@@ -117,6 +123,18 @@ footer {
     opacity: 0;
   }
 
-
+.update {
+    position: fixed;
+    background: rgba(#000,.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFF;
+    .btn-update {
+        @extend .btn;
+        background: #FFF;
+        color: #000;
+    }
+}
 
 @import 'boletes';

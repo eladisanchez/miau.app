@@ -12,7 +12,7 @@ var config = {
 	remoteRoot: '/web/',
 	//include: ['index.html','bundle.js','manifest.json','service-worker.js'],
 	include: ['*'],
-    //exclude: ['img/**/*'],
+    exclude: ['api'],
     deleteRemote: true,
     forcePasv: true
 }
