@@ -105,8 +105,18 @@
         }
     }
     &.completed {
-        background: rgba(yellow,.5)
+        background: rgba(yellow,.5);
+        animation: tube-completed .4s;
     }
+
+    @keyframes tube-completed {
+        50% {
+            transform: scale(1.1);
+        }
+        100% {
+            transform: scale(1);
+        }
+      }
 }
 
 .btn {
