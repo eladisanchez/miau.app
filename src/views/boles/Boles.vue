@@ -112,6 +112,10 @@ export default {
       return points;
     }
   },
+  beforeRouteLeave(to,from,next) {
+    document.body.classList.remove("darkmode")
+    next()
+  },
   methods: {
     setDefaults() {
       this.winner = false;

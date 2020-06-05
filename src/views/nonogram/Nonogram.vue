@@ -2,6 +2,9 @@
   <section class="container">
     <div class="game-header game-header-nonogram">
       <h2>Nonogram <small>BETA</small></h2>
+      <transition name="fade">
+        <div id="countdown" v-if="multi">{{ timeleft }}" 🍪 x2</div>
+      </transition>
       <nav class="nivells">
         <span data-level="1" @click="createLevel(1)" :class="{current:level==1}">Xupat</span>
         <span data-level="2" @click="createLevel(2)" :class="{current:level==2}">Xunguet</span>
@@ -47,6 +50,9 @@ export default {
       generated: false,
       matrix: false,
       level: 2,
+      multi: true,
+      multiTimer: null,
+      timeleft: 0,
       solution: [],
       isSolved: false,
       winner: false
@@ -63,9 +69,9 @@ export default {
     },
     points() {
       let pointsByLevel = {
-        1: 3,
-        2: 6,
-        3: 9
+        1: 1,
+        2: 4,
+        3: 6
       };
       var points = pointsByLevel[this.level];
       if (this.multi) points *= 2;
@@ -135,6 +141,7 @@ export default {
     createLevel(level = 1) {
       this.winner = false;
       this.level = level;
+      this.multi = true;
       let dificulty = {
         1: 0.5,
         2: 0.35,
@@ -150,6 +157,7 @@ export default {
       }
       this.solution = solution;
       this.isSolved = false;
+      this.startTimer();
     },
     mark(row, column) {
       if (!this.isSolved) {
@@ -179,9 +187,21 @@ export default {
       return hints;
     },
     win() {
+      clearInterval(this.multiTimer);
       this.winner = true;
       this.$store.dispatch('saveCookies',this.points)
-    }
+    },
+    startTimer() {
+      this.timeleft = this.level * 40;
+      clearInterval(this.multiTimer);
+      this.multiTimer = setInterval(() => {
+        if (this.timeleft <= 0) {
+          this.multi = false;
+          clearInterval(this.multiTimer);
+        }
+        this.timeleft -= 1;
+      }, 1000);
+    },
   },
   created() {
     this.createLevel();
