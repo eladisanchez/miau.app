@@ -199,11 +199,12 @@ body.darkmode {
 }
 
 .game-header-boles {
-    background-image: url("img/joan.jpg");
+    background-image: url("img/boles.jpg");
 }
 
 body.dracmode {
     .game-header-boles {
+        height: 160px;
         background-image: url("img/drac.gif");
     }
     .game {

@@ -1,8 +1,8 @@
 <template>
-  <section class="ranking" @click="close()">
+  <section class="ranking">
     <div class="container">
     <h2>Rànquing</h2>
-    <button class="ranking-close"></button>
+    <button class="ranking-close" @click="close()"></button>
     <transition name="fade" mode="out-in">
     <div class="ranking-list" v-if="loaded">
       <p v-for="(player, i) in players" :key="'player'+i">
@@ -41,7 +41,7 @@ export default {
         });
     },
     close() {
-      this.$parent.toggleRanking()
+      this.$router.go(-1)
     }
   },
   created() {
@@ -70,6 +70,7 @@ export default {
   text-align: left;
   cursor: pointer;
   overflow-y: auto;
+  z-index: 50;
   .container {
     position: relative;
   }

@@ -92,7 +92,7 @@ header {
 }
 
 .game-header {
-    height: 160px;
+    height: 100px;
     width: 100%;
     position: relative;
     background-size: cover;
@@ -105,6 +105,11 @@ header {
         margin: 0;
         top: 15px;
         left: 20px;
+        small {
+            margin-left: .2em;
+            opacity: .5;
+            font-weight: normal;
+        }
     }
 }
 
@@ -119,6 +124,11 @@ footer {
     height: 48px;
     line-height: 48px;
     vertical-align: middle;
+    .container {
+        display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    }
     a {
         text-decoration: none;
         cursor: pointer;
@@ -126,6 +136,9 @@ footer {
         font-weight: bold;
         display: inline-block;
         margin: 0 10px;
+        &.router-link-active {
+            color: yellow;
+        }
     }
     z-index: 100;
 }

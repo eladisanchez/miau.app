@@ -6,7 +6,7 @@
     <h1> Hola, {{ user }}.</h1>
     <p class="hola">Has fet caca avui? A què vols jugar?</p>
     <router-link to="boles" class="btn-game btn">Les Boles de l'Eladi</router-link>
-    <p class="aviat">Aviat hi haurà més jocs per anar a fer caca!</p>
+    <router-link to="nonogram" class="btn-game btn">El Nonogram de la Maria</router-link>
   </section>
 </template>
 <script>

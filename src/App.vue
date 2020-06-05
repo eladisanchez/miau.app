@@ -17,8 +17,9 @@
 
     <footer>
       <div class="container pad">
-        <a @click="toggleRanking()">Rànquing</a>
-        <router-link :to="'/user'">Usuari</router-link>
+        <router-link :to="'/ranking'" class="btn-ranking">Rànquing</router-link>
+        <router-link :to="'/cat'" class="btn-cat">Gat</router-link>
+        <router-link :to="'/user'" class="btn-user">Usuari</router-link>
       </div>
     </footer>
 
@@ -33,10 +34,6 @@
         </button>
       </div>
     </div>
-
-    <transition name="fade" mode="out-in">
-      <ranking v-if="showRanking"></ranking>
-    </transition>
 
     <div class="login" v-if="!userId">
       <div class="pad">
@@ -58,15 +55,10 @@
   </div>
 </template>
 <script>
-import Ranking from './views/Ranking'
 export default {
   name: "App",
-  components: {
-    'ranking': Ranking
-  },
   data() {
     return {
-      showRanking: false,
       refreshing: false,
       registration: null,
       updateExists: false,
@@ -164,5 +156,21 @@ export default {
       font-size: 15px;
       margin-top: 10px;
     }
+}
+footer a {
+  display: inline-block;
+  padding-left: 30px;
+  background-size: 20px auto;
+  background-position: left center;
+  background-repeat: no-repeat;
+}
+.btn-ranking {
+  background-image: url("scss/img/ico-ranking.svg");
+}
+.btn-cat {
+  background-image: url("scss/img/ico-cat.svg");
+}
+.btn-user {
+  background-image: url("scss/img/ico-user.svg");
 }
 </style>
