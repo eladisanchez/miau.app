@@ -80,18 +80,22 @@
         border-radius: 30px;
         padding-top: 6px;
         color: rgba(#FFF,.3);
-        &.color0 { background: #E71F1F; }
+        font-size: 14px;
+        line-height: 22px;
+        &.color0 { background: #e72222; }
         &.color1 { background: #355FDC; }
-        &.color2 { background: #85E631; color: rgba(#000,.3);}
-        &.color3 { background: #FBDD23; color: rgba(#000,.3);}
-        &.color4 { background: #B622DC; }
+        &.color2 { background: #85E631; color: rgba(#000,.2);}
+        &.color3 { background: #FBDD23; color: rgba(#000,.2);}
+        &.color4 { background: #a122dc; }
         &.color5 { background: #F37D26; }
         &.color6 { background: #196E2A; }
         &.color7 { background: #8D5C5C; }
-        &.color8 { background: #FC4F79; }
-        &.color9 { background: #61CBEE }
+        &.color8 { background: #f5478f; }
+        &.color9 { background: #61CBEE; color: rgba(#000,.2) }
         &.color10 { background: gray }
-        &.color11 { background: rgb(32, 26, 22); }
+        &.color11 { background: #bdbe5e; }
+        &.color12 { background: #17285a; }
+        &.color13 { background: #0eb89c; }
         &:nth-child(1) { bottom: 4px; }
         &:nth-child(2) { bottom: 38px; }
         &:nth-child(3) { bottom: 72px; }
@@ -182,6 +186,7 @@
         background: #000;
         border-radius: 200px;
         padding-top: 70px;
+        border: 4px solid #FFF;
     }
     .galeta {
         margin: 0;

@@ -61,6 +61,13 @@ const achievements = {
     "27000": "Ha perdut la virginitat",
     "28000": "Ha creat una startup",
     "29000": "Ha comprat uns sanjacobos congelats",
-    "30000": "Ha aconseguit superar l'addicció a aquest joc"
+    "30000": "Ha aconseguit superar l'addicció a aquest joc",
+    "33000": "Ha anat a Empúries",
+    "36000": "Ha fet la primera comunió",
+    "40000": "Ha memoritzat el Parenostre",
+    "42000": "Ha resolt aquell problema de dicció que tenia amb la lletra S",
+    "45000": "S'ha menjat una bona polla",
+    "48000": "Sap fer polseres de colors",
+    "50000": "Pot moure objectes amb la ment"
 }
 export default achievements

@@ -11,6 +11,7 @@
         <span data-level="1" @click="createLevel(1)" :class="{current:level==1}">Fase 0</span>
         <span data-level="2" @click="createLevel(2)" :class="{current:level==2}">Fase 0,5</span>
         <span data-level="3" @click="createLevel(3)" :class="{current:level==3}">Fase 1</span>
+        <span data-level="4" @click="createLevel(4)" :class="{current:level==4}">NN</span>
       </nav>
     </div>
 
@@ -54,6 +55,7 @@
 import Tube from './tube'
 import Ball from './Ball'
 export default {
+  props: ['ristra'],
   components: {
     'ball': Ball
   },
@@ -77,6 +79,10 @@ export default {
         3: {
           colors: 12,
           tubes: 14
+        },
+        4: {
+          colors: 14,
+          tubes: 16
         }
       },
       timeleft: 40,
@@ -91,8 +97,11 @@ export default {
         4: "4 galetones",
         5: "5 galetaques",
         6: "6 galetotes",
+        7: "7 galetamens",
         8: "8 galetamens",
-        10: "10 galetamens\nEts el Déu de les galetes!"
+        10: "10 galetufes",
+        14: "14 galetufes",
+        16: "16 galetúfigues!"
       },
     };
   },
@@ -104,7 +113,8 @@ export default {
       let pointsByLevel = {
         1: 1,
         2: 3,
-        3: 5
+        3: 5,
+        4: 8
       };
       var points = pointsByLevel[this.level];
       if (this.cheat) points -= 1;
@@ -129,15 +139,25 @@ export default {
     createLevel(level = 2) {
       this.setDefaults();
       this.level = level;
-      for (let i = 0; i < this.levels[level].tubes; i++) {
-        this.tubes.push(new Tube());
-      }
-      for (let i = 0; i < this.levels[level].colors; i++) {
-        for (let j = 0; j < 4; j++) {
-          this.balls.push(i);
+      if(this.ristra) {
+        var balls = this.ristra.split('-');
+        console.log(balls)
+        var numTubes = balls.length/4+2;
+        for (let i = 0; i < numTubes; i++) {
+          this.tubes.push(new Tube());
         }
+        this.balls = balls;
+      } else {
+        for (let i = 0; i < this.levels[level].tubes; i++) {
+          this.tubes.push(new Tube());
+        }
+        for (let i = 0; i < this.levels[level].colors; i++) {
+          for (let j = 0; j < 4; j++) {
+            this.balls.push(i);
+          }
+        }
+        this.balls.sort(() => Math.random() - 0.5);
       }
-      this.balls.sort(() => Math.random() - 0.5);
       this.setBalls();
       this.startTimer();
     },
@@ -215,7 +235,10 @@ export default {
     win() {
 
       clearInterval(this.multiTimer);
-      this.$store.dispatch('saveCookies',this.points)
+      this.$store.dispatch('saveCookies',{
+        cookies: this.points,
+        game: 'boles'
+      })
       setTimeout(() => {
         this.winner = true;
       }, 100);
@@ -223,7 +246,13 @@ export default {
     },
 
     startTimer() {
-      this.timeleft = this.level * 40;
+      var times = {
+        1: 30,
+        2: 60,
+        3: 120,
+        4: 180
+      }
+      this.timeleft = times[this.level];
       clearInterval(this.multiTimer);
       this.multiTimer = setInterval(() => {
         if (this.timeleft <= 0) {

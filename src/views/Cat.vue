@@ -4,7 +4,7 @@
     <p>El teu gat...</p>
     <ul class="achis">
       <li v-for="(ach,p) in achievements" :key="p" :class="cookies>p?'yes':''">
-        <span v-if="cookies>p"><strong>{{p}} galetes</strong><br>{{ach}}</span>
+        <span v-if="cookies>=p"><strong>{{p}} galetes</strong><br>{{ach}}</span>
         <span v-else><strong>{{p}} galetes</strong><br>?????</span>
       </li>
     </ul>

@@ -1,8 +1,8 @@
 <template>
   <section class="container">
-    <div class="game-header game-header-nonogram">
+    <div class="game-header game-header-pescamines">
       <h2>
-        Nonogram
+        Pescamines
       </h2>
       <transition name="fade">
         <div id="countdown" v-if="multi">{{ timeleft }}" 🍪 x2</div>
@@ -14,24 +14,8 @@
       </nav>
     </div>
     <div class="pad">
-      <div :class="'nonogrid x'+size" v-if="generated">
-        <span class="c q"></span>
-        <span
-          class="h"
-          v-for="(hint, index) in columnHints"
-          :key="'h'+index"
-          :class="{completed:hint==columnGame[index]}"
-        >
-          <strong>{{ hint || 0 }}</strong>
-        </span>
+      <div :class="'minegrid x'+size" v-if="generated">
         <template v-for="(row,rowIndex) in matrix">
-          <span
-            class="r"
-            :key="'r'+rowIndex"
-            :class="{completed:rowHints[rowIndex]==rowGame[rowIndex]}"
-          >
-            <strong>{{ rowHints[rowIndex] || 0 }}</strong>
-          </span>
           <span
             class="c"
             :class="{'sel':column==1,'disc':column==2}"
@@ -75,17 +59,17 @@ export default {
   computed: {
     size() {
       let sizes = {
-        1: 5,
-        2: 10,
-        3: 10
+        1: 8,
+        2: 8,
+        3: 8
       };
       return sizes[this.level];
     },
     points() {
       let pointsByLevel = {
-        1: 2,
+        1: 1,
         2: 4,
-        3: 7
+        3: 6
       };
       var points = pointsByLevel[this.level];
       if (this.multi) points *= 2;
@@ -152,23 +136,6 @@ export default {
   },
   watch: {
     matrix() {
-      /*
-      let isEqual = true;
-      for (let i in this.matrix) {
-        for (let j in this.matrix[i]) {
-          if (
-            (this.matrix[i][j] === 1 &&
-              this.matrix[i][j] !== this.solution[i][j]) ||
-            (this.matrix[i][j] !== 1 && this.solution[i][j] === 1)
-          ) {
-            isEqual = false;
-            break;
-          }
-        }
-        if (!isEqual) break;
-      }
-      if (isEqual) this.win();
-      */
      let isEqual = true;
      for (let i = 0; i < this.size; i++) {
        if (this.rowGame[i]!=this.rowHints[i] || this.columnGame[i] != this.columnHints[i]) {
@@ -192,18 +159,6 @@ export default {
     }
   },
   methods: {
-    togglePanMode(val) {
-      this.panMode = val;
-    },
-    move(e) {
-      let p = e.touches[0];
-      let el = document.elementFromPoint(p.clientX, p.clientY);
-      let cmp = this.$children.find(c => c.$el === el);
-      if (cmp) {
-        console.log(cmp)
-        //cmp.setActive()
-      }
-    },
     createLevel(level = 1) {
       this.winner = false;
       this.level = level;
@@ -271,14 +226,14 @@ export default {
       }, 150);
       this.$store.dispatch("saveCookies",{
         cookies: this.points,
-        game: 'nono'
+        game: 'mines'
       });
     },
     startTimer() {
       var times = {
-        1: 15,
-        2: 100,
-        3: 180
+        1: 40,
+        2: 120,
+        3: 200
       }
       this.timeleft = times[this.level];
       clearInterval(this.multiTimer);
@@ -297,13 +252,13 @@ export default {
 };
 </script>
 <style lang="scss">
-.game-header-nonogram {
+.game-header-pescamines {
   margin-bottom: 40px;
   background: blue;
   height: 100px !important;
-  background-image: url("../../scss/img/nonogram.jpg");
+  background-image: url("../../scss/img/pescamines.jpg");
 }
-.nonogrid {
+.minegrid {
   width: 100%;
   display: grid;
   position: relative;
@@ -366,51 +321,12 @@ export default {
       background-size: cover;
     }
   }
-  &.x5 {
-    grid-template-columns: 2fr repeat(5, 1fr);
-    grid-column-start: 1;
-    grid-column-end: 6;
-    grid-row-start: 1;
-    grid-row-end: 6;
-    strong {
-      font-size: 15px;
-    }
-  }
-  &.x10 {
-    grid-template-columns: 2fr repeat(10, 1fr);
+  &.x8 {
+    grid-template-columns: repeat(8, 1fr);
     grid-column-start: 1;
     grid-column-end: 11;
     grid-row-start: 1;
     grid-row-end: 11;
-    &:before {
-      position: absolute;
-      content: "";
-      display: block;
-      width: 83.33%;
-      height: 2px;
-      background: #999;
-      top: 58%;
-      right: 0;
-      z-index: 10;
-    }
-    &:after {
-      position: absolute;
-      content: "";
-      display: block;
-      height: 83.2%;
-      width: 2px;
-      background: #999;
-      left: 58.2%;
-      bottom: 0;
-      z-index: 10;
-    }
-  }
-  &.x15 {
-    grid-template-columns: 2fr repeat(15, 1fr);
-    grid-column-start: 1;
-    grid-column-end: 16;
-    grid-row-start: 1;
-    grid-row-end: 16;
   }
 }
 </style>

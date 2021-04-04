@@ -8,6 +8,8 @@ import Ranking from '../views/Ranking';
 import Cat from '../views/Cat';
 import Boles from '../views/boles/Boles';
 import Nonogram from '../views/nonogram/Nonogram'
+import Mastermind from '../views/mastermind/Mastermind'
+import Pescamines from '../views/pescamines/Pescamines'
 
 Vue.use(VueRouter);
 
@@ -18,7 +20,10 @@ const routes = [
 	{ path: '/ranking', component: Ranking, meta: { title: 'miau.app | Rànquing' } },
 	{ path: '/user', component: User, meta: { title: 'miau.app | Usuari' } },
 	{ path: '/boles', component: Boles, meta: { title: "miau.app | Les Boles de l'Eladi" } },
-	{ path: '/nonogram', component: Nonogram, meta: { title: "miau.app | Nonogram" } }
+	{ path: '/boles/:ristra', component: Boles, meta: { title: "miau.app | Les Boles de l'Eladi" }, props: true },
+	{ path: '/nonogram', component: Nonogram, meta: { title: "miau.app | Nonogram" } },
+	{ path: '/mastermind', component: Mastermind, meta: { title: "miau.app | Mastermind" } },
+	{ path: '/pescamines', component: Pescamines, meta: { title: "miau.app | Pescamines" } }
 ];
 
 const router = new VueRouter({

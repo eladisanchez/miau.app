@@ -8,7 +8,8 @@ export default new Vuex.Store({
 	state: {
 		user: localStorage.getItem('user'),
 		userId: localStorage.getItem('userId'),
-		cookies: parseInt(localStorage.getItem('cookies'))
+		cookies: parseInt(localStorage.getItem('cookies')),
+		lang: localStorage.getItem('lang')
 	},
 	getters: {
 		cookies: (state) => {
@@ -23,6 +24,9 @@ export default new Vuex.Store({
 		},
 		userId: (state) => {
 			return state.userId ? state.userId : false;
+		},
+		lang: (state) => {
+			return state.lang ? state.lang : 'ca'
 		}
 	},
 	mutations: {
@@ -43,9 +47,14 @@ export default new Vuex.Store({
 			state.cookies = 0;
 			state.user = null;
 			state.userId = null;
+		},
+		SET_LANG(state,lang) {
+			state.lang = lang;
+			localStorage.setItem('lang', lang);
 		}
 	},
 	actions: {
+    
 		login({ commit, state },user) {
 			// Generar una ID d'usuari si no en té
 			if (!state.userId) {
@@ -66,14 +75,15 @@ export default new Vuex.Store({
 			}
 		},
 
-		saveCookies({ commit, state }, cookies) {
+		saveCookies({ commit, state }, {cookies,game}) {
 			commit('ADD_COOKIES', cookies);
 			fetch('/api/index.php', {
 				method: 'POST',
 				body: JSON.stringify({
 					userid: state.userId,
 					nom: state.user,
-					galetes: state.cookies
+					galetes: state.cookies,
+					game: game
 				}),
 				headers: {
 					'Content-Type': 'application/json'
@@ -104,6 +114,27 @@ export default new Vuex.Store({
 					commit('SET_USER_DATA', json);
 					alert('Hola ' + json.nom);
 				});
+		},
+
+		changeName({ commit, state }, name) {
+			fetch('https://miau.app/api/changeName/', {
+				method: 'POST',
+				body: JSON.stringify({
+					userid: state.userId,
+					name: name
+				}),
+				headers: {
+					'Content-Type': 'application/json'
+				}
+      })
+        .then((res)=>{
+          return res.json();
+        })
+        .then((json)=> {
+          commit('SET_USER_DATA', json);
+          alert('Hola ' + json.nom);
+        })
 		}
+
 	}
 });

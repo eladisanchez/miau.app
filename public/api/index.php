@@ -32,7 +32,7 @@ $errorMiddleware = $app->addErrorMiddleware(true, true, true);
 $app->get('/api/index.php', function (Request $request, Response $response, $args) use ($conn) {
 
     $reslang = $conn->query("SET lc_time_names = 'ca_ES'");
-    $res = $conn->query("SELECT userid,nom,galetes,UNIX_TIMESTAMP(updated_at) as updated FROM boles WHERE nom is not null and nom<>'Ningú' ORDER BY galetes DESC limit 50");
+    $res = $conn->query("SELECT userid,nom,galetes,UNIX_TIMESTAMP(updated_at) as updated FROM boles WHERE nom is not null and nom<>'Ningú' ORDER BY galetes DESC limit 100");
     $data = json_encode($res->fetchAll(PDO::FETCH_ASSOC));
 
     $response->getBody()->write($data);
@@ -50,6 +50,15 @@ $app->post('/api/index.php', function (Request $request, Response $response, $ar
         $nom = $post->nom;
         $ip = $_SERVER["REMOTE_ADDR"];
         $userid = $post->userid;
+        $game = $post->game ?? 'boles';
+        
+        $insert1 = $conn->prepare( "INSERT INTO partides (game,userid,cookies) VALUES ( :game, :userid, :cookies )" );
+        $ex1 = $insert1->execute([
+            ':game' => $game,
+            ':userid' => $userid,
+            ':cookies' => $galetes
+        ]);
+        
 
         $insert = $conn->prepare( "INSERT INTO boles (userid,ip,nom,galetes,created_at)
         VALUES (:userid, :ip, :nom, :galetes, NOW())
@@ -60,14 +69,13 @@ $app->post('/api/index.php', function (Request $request, Response $response, $ar
             ':nom' => $nom,
             ':galetes' => $galetes
         ]);
-        $id = $conn->lastInsertId();
-        $stmt = $conn->prepare("SELECT * FROM boles WHERE id=?");
-        $stmt->execute([$id]);
+        
+        $stmt = $conn->prepare("SELECT * FROM boles WHERE userid=?");
+        $stmt->execute([$userid]);
         $lastrow = $stmt->fetchObject();
         $data = json_encode($lastrow);
         $response->getBody()->write($data);
         return $response->withHeader('Content-Type', 'application/json');
-        
 
     } catch(PDOException $e) {
 
@@ -88,6 +96,29 @@ $app->post('/api/loadUser/', function (Request $request, Response $response, $ar
     $userid = $post->userid;
 
     $stmt = $conn->prepare("SELECT userid,nom,galetes FROM boles WHERE userid=? LIMIT 1");
+    $stmt->execute([$userid]);
+    $user = $stmt->fetchObject();
+    $data = json_encode($user);
+    $response->getBody()->write($data);
+    return $response->withHeader('Content-Type', 'application/json');
+
+});
+
+// Change name
+
+$app->post('/api/changeName/', function (Request $request, Response $response, $args) use ($conn) {
+
+    $post = json_decode($request->getBody());
+    $userid = $post->userid;
+    $nom = $post->name;
+
+    $insert1 = $conn->prepare( "UPDATE boles SET nom=:nom WHERE userid=:userid" );
+    $ex1 = $insert1->execute([
+        ':userid' => $userid,
+        ':nom' => $nom
+    ]);
+    
+    $stmt = $conn->prepare("SELECT * FROM boles WHERE userid=?");
     $stmt->execute([$userid]);
     $user = $stmt->fetchObject();
     $data = json_encode($user);

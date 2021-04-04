@@ -17,41 +17,36 @@
 
     <footer>
       <div class="container pad">
-        <router-link :to="'/ranking'" class="btn-ranking">Rànquing</router-link>
-        <router-link :to="'/cat'" class="btn-cat">Gat</router-link>
-        <router-link :to="'/user'" class="btn-user">Usuari</router-link>
+        <router-link :to="'/ranking'" class="btn-ranking">{{ $t('ranquing') }}</router-link>
+        <router-link :to="'/cat'" class="btn-cat">{{ $t('gat') }}</router-link>
+        <router-link :to="'/user'" class="btn-user">{{ $t('usuari') }}</router-link>
       </div>
     </footer>
 
     <div class="update" v-if="updateExists">
       <div>
         <p>Tenim una bonica actualització!</p>
-        <button
-          class="btn-update"
-          @click="refreshApp"
-        >
-          Actualitza
-        </button>
+        <button class="btn-update" @click="refreshApp">Actualitza</button>
       </div>
     </div>
 
-    <div class="login" v-if="!userId">
+    <div class="login form" v-if="!userId">
       <div class="pad">
         <h2>Epa! Qui ets?</h2>
         <p>
           Si ets nou, escriu el teu nom:
-          <input v-model="username">
+          <input v-model="username" class="field" />
           <button class="btn" @click="register()">A jugar!</button>
         </p>
-        <hr>
+        <hr />
         <p>
-          Tens un codi?<br>
-          <input v-model="code">
+          Tens un codi?
+          <br />
+          <input v-model="code" class="field" />
           <button class="btn" @click="login()">Login</button>
         </p>
       </div>
     </div>
-
   </div>
 </template>
 <script>
@@ -62,8 +57,8 @@ export default {
       refreshing: false,
       registration: null,
       updateExists: false,
-      username: '',
-      code: ''
+      username: "",
+      code: ""
     };
   },
   computed: {
@@ -79,33 +74,37 @@ export default {
   },
   methods: {
     toggleRanking() {
-      this.showRanking = !this.showRanking
+      this.showRanking = !this.showRanking;
     },
-    showRefreshUI (e) {
+    showRefreshUI(e) {
       this.registration = e.detail;
       this.updateExists = true;
     },
-    refreshApp () {
+    refreshApp() {
       this.updateExists = false;
-      if (!this.registration || !this.registration.waiting) { return; }
-      this.registration.waiting.postMessage('skipWaiting');
+      if (!this.registration || !this.registration.waiting) {
+        return;
+      }
+      this.registration.waiting.postMessage("skipWaiting");
     },
     register() {
-      if(this.username) {
-        this.$store.dispatch('login',this.username)
+      if (this.username) {
+        this.$store.dispatch("login", this.username);
       } else {
-        alert("No siguis tímid, home!")
+        alert("No siguis tímid, home!");
       }
     },
     login() {
-      if(this.code) {
-        this.$store.dispatch('loadUserData',this.code)
+      if (this.code) {
+        this.$store.dispatch("loadUserData", this.code);
       } else {
-        alert("No siguis tímid, home!")
+        alert("No siguis tímid, home!");
       }
     }
   },
   created() {
+
+    this.$i18n.locale = this.$store.getters.lang
 
     document.addEventListener("swUpdated", this.showRefreshUI, { once: true });
     navigator.serviceWorker.addEventListener("controllerchange", () => {
@@ -113,7 +112,7 @@ export default {
       this.refreshing = true;
       window.location.reload();
     });
-
+    
   }
 };
 </script>
@@ -125,7 +124,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  background: #FFF;
+  background: #fff;
   width: 100%;
   height: 100%;
   z-index: 101;
@@ -135,27 +134,13 @@ export default {
   .pad {
     height: auto;
   }
-  input {
-    width: 100%;
-    padding: 5px 10px;
-    border: 2px solid #000;
-    background: #eee;
-    color: #000;
-    border-radius: 3px;
-    font-weight: bold;
-    text-align: center;
-    font-size: 20px;
+  
+}
+.form {
+.btn {
+    font-size: 15px;
+    margin-top: 10px;
   }
-  hr {
-    margin: 20px 0;
-      border: 0;
-      height: 1px;
-      background: #999;
-    }
-    .btn {
-      font-size: 15px;
-      margin-top: 10px;
-    }
 }
 footer a {
   display: inline-block;
@@ -172,5 +157,23 @@ footer a {
 }
 .btn-user {
   background-image: url("scss/img/ico-user.svg");
+}
+.field {
+  display: block;
+  width: 100%;
+  padding: 5px 10px;
+  border: 2px solid #000;
+  background: #eee;
+  color: #000;
+  border-radius: 3px;
+  font-weight: bold;
+  text-align: center;
+  font-size: 20px;
+}
+hr {
+  margin: 20px 0;
+  border: 0;
+  height: 1px;
+  background: #999;
 }
 </style>
