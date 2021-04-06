@@ -24,10 +24,7 @@
     </footer>
 
     <div class="update" v-if="updateExists">
-      <div>
-        <p>Tenim una bonica actualització!</p>
-        <button class="btn-update" @click="refreshApp">Actualitza</button>
-      </div>
+      <p>Tenim una bonica actualització! <button class="btn-update" @click="refreshApp">Actualitza</button></p>
     </div>
 
     <div class="login form" v-if="!userId">
@@ -141,6 +138,7 @@ export default {
     font-size: 15px;
     margin-top: 10px;
   }
+  margin-bottom: 40px;
 }
 footer a {
   display: inline-block;
@@ -162,8 +160,8 @@ footer a {
   display: block;
   width: 100%;
   padding: 5px 10px;
-  border: 2px solid #000;
-  background: #eee;
+  border:0;
+  border-bottom: 1px solid #000;
   color: #000;
   border-radius: 3px;
   font-weight: bold;

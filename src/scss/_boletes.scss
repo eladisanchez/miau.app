@@ -46,8 +46,6 @@
 }
 
 .game {
-    background: rgba(#FFF,.7);
-    border-radius: 15px;
     text-align: center;
     margin: 0 auto;
     transition: 1s ease all;
@@ -56,23 +54,25 @@
 .tube {
     display: inline-block;
     border-style: solid;
-    border-color: #000;
-    border-width: 0 2px 2px 2px;
+    //border-color: #000;
+    //border-width: 0 2px 2px 2px;
+    border-width: 0;
     border-radius: 0 0 30px 30px;
-    //box-shadow: 0 3px 2px 2px rgba(#bbb,.5);
+    //box-shadow: 0 0 2px #000;
     margin: 8px 5px;
-    padding: 4px;
+    padding: 5px;
     width: 44px;
     height: 150px;
     position: relative;
     cursor: pointer;
     transition: .2s ease all;
+    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgb(224, 226, 231) 100%);
     .darkmode & {
         border-color: #FFF;
     }
     .ball {
         position: absolute;
-        left: 4px;
+        left: 6px;
         //box-shadow: 0 0 1px 1px #FFF;
         display: inline-block;
         width: 32px;
@@ -82,10 +82,11 @@
         color: rgba(#FFF,.3);
         font-size: 14px;
         line-height: 22px;
+        font-family: 'Eina',sans-serif;
         &.color0 { background: #e72222; }
         &.color1 { background: #355FDC; }
         &.color2 { background: #85E631; color: rgba(#000,.2);}
-        &.color3 { background: #FBDD23; color: rgba(#000,.2);}
+        &.color3 { background: #f1da03; color: rgba(#000,.2);}
         &.color4 { background: #a122dc; }
         &.color5 { background: #F37D26; }
         &.color6 { background: #196E2A; }
@@ -103,13 +104,13 @@
         transition: .2s ease all;
     }
     &.checked {
-        background: rgba(#FFF,.25);
+        background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgb(206, 209, 216) 100%);
         .ball:last-child {
             transform: translateY(-22px);
         }
     }
     &.completed {
-        background: rgba(yellow,.5);
+        background: rgba(yellow,.8);
         animation: tube-completed .4s;
     }
 
@@ -123,25 +124,6 @@
       }
 }
 
-.btn {
-    background-color: #FFF;
-    border: 2px solid #000;
-    color: #000;
-    padding: .5em 1em;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 14px;
-    margin: 0 2px 6px 2px;
-    border-radius: 5px;
-    font-size: 18px;
-    &:disabled {
-        opacity: .5;
-    }
-    &:focus {
-        outline:none;
-        box-shadow: 0 0 10px orangered;
-    }
-}
 
 #countdown {
     position: absolute;
@@ -153,8 +135,8 @@
     margin-bottom: 10px;
     font-size: 13px;
     color: #FFF;
-    background: #000;
     font-weight: bold;
+    text-shadow: 2px 0 5px rgba(#000,.3);
 }
 
 .winner {
@@ -163,44 +145,39 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(#000,.5);
-    color: #FFF;
+    background: rgba(#000,.2);
     z-index: 100;
+    cursor: pointer;
     h2 {
-        color: #FFF;
+        font-size: 2rem;
+        color: #000;
     }
     div {
         h2,p {
             margin: 0;
         }
-        p {
-            color: #666;
-        }
-        font-size:20px;
+        font-size: 18px;
         width: 300px;
         height: 300px;
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background: #000;
-        border-radius: 200px;
-        padding-top: 70px;
-        border: 4px solid #FFF;
+        background: #FFF;
+        border-radius: 100px;
+        padding-top: 50px;
+        box-shadow: 0 0 30px rgb(0 0 0 / 20%);
     }
     .galeta {
         margin: 0;
-        font-size: 80px;
+        font-size: 120px;
     }
 }
 
 
 body.darkmode {
-    background-image: url("img/gatete-d.jpg");
+    background: #111;
     color: #FFF;
-    .game {
-        background: rgba(#000,.7);
-    }
 }
 
 .game-header-boles {

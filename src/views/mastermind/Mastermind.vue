@@ -104,9 +104,12 @@ export default {
       this.code = []
       this.guess = [[],[],[],[],[],[],[],[]];
       this.guesses = 0;
-      for(let i = 0; i<4; i++) {
+      let colors = [0,1,2,3,4,5];
+      colors.sort(() => Math.random() - 0.5);
+      this.code = colors.slice(0, 4);
+      /*for(let i = 0; i<4; i++) {
         this.code.push(Math.floor(Math.random() * 6));
-      }
+      }*/
       this.winner = false;
       this.loser = false;
       this.multi = true;
@@ -117,7 +120,6 @@ export default {
       if(this.guess[this.guesses].length==4) {
         if(JSON.stringify(this.guess[this.guesses])==JSON.stringify(this.code)) {
           this.win()
-          console.log("uwah")
         } else {
           this.guesses++
           if(this.guesses>7) {
@@ -208,13 +210,12 @@ export default {
   animation: bounceIn .4s;
 }
 .mmcode {
-  background: #eee;
+  border-bottom: 1px solid #999;
   padding: 0 20px;
   display: flex;
   align-items: center;
   justify-content: left;
   padding-left: 40px;
-  border-bottom: 2px solid #000;
   position: relative;
   &.hidden .mmb { background: #ddd; } 
   .btn {
@@ -246,7 +247,6 @@ export default {
   padding-left: 30px;
   padding-bottom: 12px;
   position: relative;
-  border-top: 2px solid #000;
   .mmb {
     margin: 0 7px;
   }

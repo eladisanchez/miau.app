@@ -2,8 +2,8 @@ module.exports = {
 	css: {sourceMap: true},
 	pwa: {
 		name: 'Miau.app',
-		themeColor: '#000000',
-		msTileColor: '#000000',
+		themeColor: '#FFFFFF',
+		msTileColor: '#FFFFFF',
 		appleMobileWebAppCapable: 'yes',
 		appleMobileWebAppStatusBarStyle: 'black',
         display: 'fullscreen',

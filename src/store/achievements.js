@@ -68,6 +68,16 @@ const achievements = {
     "42000": "Ha resolt aquell problema de dicció que tenia amb la lletra S",
     "45000": "S'ha menjat una bona polla",
     "48000": "Sap fer polseres de colors",
-    "50000": "Pot moure objectes amb la ment"
+    "50000": "Pot moure objectes amb la ment",
+    "55000": "Ha adoptat un gos",
+    "60000": "Ha fet un curs online de màrqueting digital",
+    "65000": "Li ha escrit un discurs al Joe Biden",
+    "70000": "Ha desmantellat una xarxa de narcotràfic",
+    "75000": "Ha demanat la pau mundial per Amazon",
+    "80000": "Ha visualitzat tots els vídeos de Youtube",
+    "85000": "Ha anat de convidat l'Hormiguero",
+    "90000": "Sap imitar al Mariano Rajoy",
+    "95000": "Ha desenvolupat una criptomoneda",
+    "100000": "Et reconana que paris de jugar perquè això teu no és normal"
 }
 export default achievements

@@ -1,16 +1,23 @@
 <template>
   <section class="ranking">
     <div class="container">
-    <h2>Rànquing</h2>
-    <button class="ranking-close" @click="close()"></button>
+    <h2>Rànquing {{month}}</h2>
     <transition name="fade" mode="out-in">
     <div class="ranking-list" v-if="loaded">
-      <p v-for="(player, i) in players" :key="'player'+i">
+      <table class="ranking-table">
+        <tr><th></th><th class="text-center">{{month}}</th><th class="text-center">Total</th><th></th></tr>
+        <tr v-for="(player, i) in players" :key="'player'+i">
+          <td><span class="pos">{{parseInt(i+1)}}</span><strong>{{ player.nom }}</strong> <small>{{player.updated | timeago}}</small></td>
+          <td class="text-center r-month">{{numFormat(player.monthcookies)}}</td>
+          <td class="text-center">{{numFormat(player.galetes)}}</td>
+        </tr>
+      </table>
+      <!--<p v-for="(player, i) in players" :key="'player'+i">
         <span class="pos">{{parseInt(i+1)}}.</span>
         <span class="galetes">{{player.galetes}}</span>
         <strong :class="player.userid==$parent.userId&&player.nom!='Ningú'?'tu':''">{{ player.nom }}</strong>
         <small>{{player.updated | timeago}}</small>
-      </p>
+      </p>-->
     </div>
     </transition>
     </div>
@@ -25,6 +32,10 @@ export default {
     };
   },
   methods: {
+    numFormat(num) {
+      if(num)
+      return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+    },
     fetchData() {
       fetch("https://miau.app/api/index.php", {
         method: "GET"
@@ -50,6 +61,24 @@ export default {
   computed: {
     userid(){
       return this.$store.getters.user.userId
+    },
+    month(){
+      var date = new Date();
+      var mesos = {
+        0: 'Gener',
+        1: 'Febrer',
+        2: 'Març',
+        3: 'Abril',
+        4: 'Maig',
+        5: 'Juny',
+        6: 'Juliol',
+        7: 'Agost',
+        8: 'Setembre',
+        9: 'Octubre',
+        10: 'Novembre',
+        11: 'Desembre'
+      }
+      return mesos[date.getMonth()]
     }
   },
   watch: {
@@ -58,6 +87,30 @@ export default {
 };
 </script>
 <style lang="scss">
+.text-right {
+  text-align: right;
+}
+.text-center {
+  text-align: center;
+}
+.ranking-table {
+  width: 100%;
+  border-collapse: collapse;
+  td {
+    font-size: 12px;
+  }
+  th {
+    font-size: 10px;
+    font-family: 'Eina',sans-serif;
+    padding: 4px 6px;
+  }
+  td,th {
+    padding: 4px 0;
+  }
+}
+.r-month {
+  background: rgb(247, 246, 198);
+}
 .ranking {
   background: #FFF;
   position: fixed;
@@ -68,7 +121,6 @@ export default {
   padding: 20px;
   font-size: 14px;
   text-align: left;
-  cursor: pointer;
   overflow-y: auto;
   z-index: 50;
   .container {
@@ -102,7 +154,7 @@ export default {
     border-bottom: dotted 1px #eee;
   }
   .pos {
-    color: #999;
+    color: rgb(191, 194, 202);
     width: 34px;
     display: inline-block;
     text-align: right;
@@ -116,10 +168,11 @@ export default {
   .tu {
     color: orangered;
   }
-  small {
-    color: #999;
+  small,.timeago {
+    color: rgb(185, 189, 197);
     margin-left: 6px;
-    font-size: 11px;
+    font-size: 9px;
+    letter-spacing: -0.05em;
   }
 }
 </style>

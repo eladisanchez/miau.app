@@ -83,6 +83,7 @@ export default new Vuex.Store({
 					userid: state.userId,
 					nom: state.user,
 					galetes: state.cookies,
+					newgaletes: cookies,
 					game: game
 				}),
 				headers: {

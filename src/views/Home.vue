@@ -1,25 +1,27 @@
 <template>
-  <section class="container pad">
+  <section class="home"><div class="container pad">
     <router-link :class="'cat cat'+catid" :to="'/cat'">
       <!--<span>Clica'm, baby.</span>-->
     </router-link>
     <h1 class="hola-nom">{{ $t('hola') }} {{ user }}.</h1>
     <p class="hola">{{ $t('intro') }}</p>
-    <router-link to="boles" class="btn-game btn">{{ $t('boles') }}</router-link>
-    <router-link to="nonogram" class="btn-game btn">{{ $t('nono') }}</router-link>
-    <router-link to="mastermind" class="btn-game btn">{{ $t('master') }}</router-link>
-    <button disabled class="btn-game btn">???</button>
-    <div class="news">
+    <div>
+    <router-link to="boles" class="btn-game btn">🔵 {{ $t('boles') }}</router-link>
+    <router-link to="nonogram" class="btn-game btn">🔲 {{ $t('nono') }}</router-link>
+    <router-link to="mastermind" class="btn-game btn">🧠 {{ $t('master') }}</router-link>
+    <router-link to="pescamines" class="btn-game btn">🚩 {{ $t('pescamines') }}</router-link>
+    <!--<button disabled class="btn-game btn">🚩 {{ $t('pescamines') }}</button>-->
+    </div>
+    <!--<div class="news">
       <h4>NOVETATS!</h4>
       <ul>
-        <li>· Nou nivell Nova Normalitat a les Boles</li>
-        <li>· Algun dia hi haurà un Pescamines</li>
+        <li>· S'acosta el Pescamines!</li>
       </ul>
-    </div>
-    <p><strong>ANUNCIA'T!</strong><br>
-    <a href="mailto:hola@miau.app">hola@miau.app</a></p>
+    </div>-->
+    <!--<p><strong>{{$t("ANUNCIA'T!")}}</strong><br>
+    <a href="mailto:hola@miau.app">hola@miau.app</a></p>-->
     <!--<p><a href="https://paypal.me/miauapp?locale.x=es_ES" target="_blank" class="btn btn-donate">Paga'ns una birra 🍺</a></p>-->
-  </section>
+  </div></section>
 </template>
 <script>
 export default {
@@ -35,6 +37,12 @@ export default {
 };
 </script>
 <style lang="scss">
+.home {
+  background-image: radial-gradient(circle, rgba(255,255,255,1) 28%, rgba(224,229,231,1) 100%);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 .hola-nom {
   margin: 0;
 }
@@ -50,11 +58,27 @@ export default {
   background: #fff;
   text-align: center;
   padding: 10px;
-  margin-bottom: 8px;
+  margin-bottom: 12px !important;
   text-decoration: none;
   color: #000;
+  transition: .2s ease all;
   &:disabled {
-    opacity: .2 !important;
+    color: #ccc;
+  }
+  animation-name: fadeInUp;
+  animation-duration: .4s;
+  animation-fill-mode: both;
+  &:nth-child(1){
+    animation-delay: .1s;
+  }
+  &:nth-child(2){
+    animation-delay: .2s;
+  }
+  &:nth-child(3){
+    animation-delay: .3s;
+  }
+  &:nth-child(4){
+    animation-delay: .4s;
   }
 }
 .aviat {
@@ -74,6 +98,7 @@ a {
   animation-timing-function: ease;
    animation-duration: 3s;
     animation-iteration-count: infinite;
+  mix-blend-mode: multiply;
   span {
     background: #000;
     border-radius: 4px;
@@ -99,32 +124,10 @@ a {
       bottom: -9px;
     }
   }
-  &.cat1 {
-    background-image: url("../scss/img/gat1.svg");
-  }
-  &.cat2 {
-    background-image: url("../scss/img/gat2.svg");
-  }
-  &.cat3 {
-    background-image: url("../scss/img/gat3.svg");
-  }
-  &.cat4 {
-    background-image: url("../scss/img/gat4.svg");
-  }
-  &.cat5 {
-    background-image: url("../scss/img/gat5.svg");
-  }
-  &.cat6 {
-    background-image: url("../scss/img/gat6.svg");
-  }
-  &.cat7 {
-    background-image: url("../scss/img/gat7.svg");
-  }
-  &.cat8 {
-    background-image: url("../scss/img/gat8.svg");
-  }
-  &.cat9 {
-    background-image: url("../scss/img/gat9.svg");
+  @for $i from 1 through 9 {
+    &.cat#{$i} {
+      background-image: url("../scss/img/gats/gat#{$i}.png");
+    } 
   }
 }
 @keyframes bounce-2 {

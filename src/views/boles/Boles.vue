@@ -1,7 +1,7 @@
 <template>
   <section class="container">
     <div class="game-header game-header-boles">
-      <h2>Les Boles de l'Eladi</h2>
+      <h2>{{$t("boles")}}</h2>
 
       <transition name="fade">
         <div id="countdown" v-if="multi">{{ timeleft }}" 🍪 x2</div>
@@ -295,7 +295,7 @@ export default {
   flex-wrap: wrap;
   justify-content: space-between;
   padding: 0 20px;
-  background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
+  background: linear-gradient(0deg, rgba(0, 0, 0, .4) 0%, rgba(0, 0, 0, 0) 100%);
   span {
     flex-grow: 1;
     cursor: pointer;

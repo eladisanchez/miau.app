@@ -2,10 +2,6 @@
 header("Access-Control-Allow-Origin: *");
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
@@ -32,8 +28,19 @@ $errorMiddleware = $app->addErrorMiddleware(true, true, true);
 $app->get('/api/index.php', function (Request $request, Response $response, $args) use ($conn) {
 
     $reslang = $conn->query("SET lc_time_names = 'ca_ES'");
-    $res = $conn->query("SELECT userid,nom,galetes,UNIX_TIMESTAMP(updated_at) as updated FROM boles WHERE nom is not null and nom<>'Ningú' ORDER BY galetes DESC limit 100");
+    $res = $conn->query("SELECT B.userid,B.nom,B.galetes,UNIX_TIMESTAMP(B.updated_at) as updated,monthcookies FROM boles B
+    LEFT JOIN (
+        SELECT userid,SUM(newcookies) as monthcookies 
+        FROM partides 
+        WHERE MONTH(created_at) = MONTH(CURRENT_DATE())
+        AND YEAR(created_at) = YEAR(CURRENT_DATE()) 
+        GROUP BY userid
+    ) P ON B.userid = P.userid
+    WHERE B.nom is not null and B.nom<>'Ningú' ORDER BY monthcookies DESC, B.galetes DESC");
     $data = json_encode($res->fetchAll(PDO::FETCH_ASSOC));
+
+    $res2 = $conn->query("SELECT userid,SUM(newcookies) as new FROM partides WHERE MONTH(created_at) = MONTH(CURRENT_DATE())
+    AND YEAR(created_at) = YEAR(CURRENT_DATE()) GROUP BY userid");
 
     $response->getBody()->write($data);
     return $response->withHeader('Content-Type', 'application/json');
@@ -47,18 +54,19 @@ $app->post('/api/index.php', function (Request $request, Response $response, $ar
 
         $post = json_decode($request->getBody());
         $galetes = intval($post->galetes);
+        $newgaletes = intval($post->newgaletes);
         $nom = $post->nom;
         $ip = $_SERVER["REMOTE_ADDR"];
         $userid = $post->userid;
         $game = $post->game ?? 'boles';
         
-        $insert1 = $conn->prepare( "INSERT INTO partides (game,userid,cookies) VALUES ( :game, :userid, :cookies )" );
+        $insert1 = $conn->prepare( "INSERT INTO partides (game,userid,cookies,newcookies) VALUES ( :game, :userid, :cookies, :newcookies )" );
         $ex1 = $insert1->execute([
             ':game' => $game,
             ':userid' => $userid,
-            ':cookies' => $galetes
+            ':cookies' => $galetes,
+            ':newcookies' => $newgaletes
         ]);
-        
 
         $insert = $conn->prepare( "INSERT INTO boles (userid,ip,nom,galetes,created_at)
         VALUES (:userid, :ip, :nom, :galetes, NOW())
@@ -98,6 +106,10 @@ $app->post('/api/loadUser/', function (Request $request, Response $response, $ar
     $stmt = $conn->prepare("SELECT userid,nom,galetes FROM boles WHERE userid=? LIMIT 1");
     $stmt->execute([$userid]);
     $user = $stmt->fetchObject();
+
+    $stmt2 = $conn->prepare("SELECT COUNT(*) FROM partides WHERE userid=?");
+    $user->partides = $stmt2->execute([$userid]);
+
     $data = json_encode($user);
     $response->getBody()->write($data);
     return $response->withHeader('Content-Type', 'application/json');
@@ -105,7 +117,6 @@ $app->post('/api/loadUser/', function (Request $request, Response $response, $ar
 });
 
 // Change name
-
 $app->post('/api/changeName/', function (Request $request, Response $response, $args) use ($conn) {
 
     $post = json_decode($request->getBody());

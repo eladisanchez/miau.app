@@ -1,5 +1,6 @@
 <template>
   <section class="container">
+
     <div class="game-header game-header-pescamines">
       <h2>
         Pescamines
@@ -13,17 +14,24 @@
         <span data-level="3" @click="createLevel(3)" :class="{current:level==3}">Xungot</span>
       </nav>
     </div>
+
     <div class="pad">
-      <div :class="'minegrid x'+size" v-if="generated">
-        <template v-for="(row,rowIndex) in matrix">
-          <span
-            class="c"
-            :class="{'sel':column==1,'disc':column==2}"
-            v-for="(column, columnIndex) in row"
-            v-touch="mark(rowIndex,columnIndex)"
-            :key="rowIndex+''+columnIndex"
-          ></span>
-        </template>
+      <div :class="'minegrid x'+size">
+          <pescamines-cell
+            v-for="(cell, i) in grid"
+            :key="i"
+            :cell="cell"
+            @click.native="clickCell(cell, i)"
+            v-long-press="300"
+            @long-press-start="longPressCell(cell)"
+            
+          ></pescamines-cell>
+      </div>
+      <div class="mineoptions">
+        <button class="btn btn-flag" @click="toggleFlag()" :class="{checked: isFlag}"></button>
+        <span class="minecounter" v-if="!finished||(finished&&winner)">{{bombCount}}</span>
+        <span class="lose" v-if="!winner&&finished" @click="createLevel()">😿</span>
+        <button class="btn btn-new" @click="createLevel()"></button>
       </div>
     </div>
 
@@ -36,182 +44,207 @@
         </div>
       </div>
     </transition>
+
   </section>
 </template>
 <script>
+import PescaminesCell from './PescaminesCell.vue';
+import LongPress from 'vue-directive-long-press'
 export default {
+  directives: {
+    'long-press': LongPress
+  },
+  components: {
+    PescaminesCell,
+  },
   data() {
     return {
       generated: false,
       matrix: false,
-      level: 2,
+      level: 1,
       multi: true,
       multiTimer: null,
       timeleft: 0,
-      solution: [],
-      isSolved: false,
+      finished: false,
       winner: false,
-      solved: false,
-      paint: 0,
-      panMode: false,
+      grid: [],
+      bombCount: 0,
+      isFlag: false
     };
   },
   computed: {
     size() {
       let sizes = {
-        1: 8,
-        2: 8,
-        3: 8
+        1: 9,
+        2: 12,
+        3: 14
       };
       return sizes[this.level];
     },
+    cols() {
+      return this.size;
+    },
+    rows() {
+      return this.size;
+    },
+    bombs() {
+      let bombs = {
+        1: 10,
+        2: 20,
+        3: 35
+      };
+      return bombs[this.level];
+    },
     points() {
       let pointsByLevel = {
-        1: 1,
-        2: 4,
-        3: 6
+        1: 3,
+        2: 5,
+        3: 8
       };
       var points = pointsByLevel[this.level];
       if (this.multi) points *= 2;
       return points;
     },
-    columnHints() {
-      let hints = [];
-      for (let i in this.solution) {
-        for (let j in this.solution[i]) {
-          if (!hints[j]) hints[j] = [this.solution[i][j]];
-          else {
-            if (this.solution[i][j] == 1) hints[j][hints[j].length - 1]++;
-            else hints[j].push(this.solution[i][j]);
-          }
-        }
-      }
-      return this.removeZeros(hints);
-    },
-
-    rowHints() {
-      let hints = [];
-      for (let i in this.solution) {
-        hints.push([]);
-        for (let j in this.solution[i]) {
-          if (this.solution[i][j] == 1) {
-            if (hints[i].length == 0) hints[i].push(1);
-            else hints[i][hints[i].length - 1]++;
-          } else {
-            if (hints[i].length > 0) hints[i].push(0);
-          }
-        }
-      }
-      return this.removeZeros(hints);
-    },
-    columnGame() {
-      let hints = [];
-      for (let i in this.matrix) {
-        for (let j in this.matrix[i]) {
-          let val = this.matrix[i][j] == 1 ? 1 : 0;
-          if (!hints[j]) hints[j] = [val];
-          else {
-            if (val == 1) hints[j][hints[j].length - 1]++;
-            else hints[j].push(val);
-          }
-        }
-      }
-      return this.removeZeros(hints);
-    },
-    rowGame() {
-      let hints = [];
-      for (let i in this.matrix) {
-        hints.push([]);
-        for (let j in this.matrix[i]) {
-          if (this.matrix[i][j] == 1) {
-            if (hints[i].length == 0) hints[i].push(1);
-            else hints[i][hints[i].length - 1]++;
-          } else {
-            if (hints[i].length > 0) hints[i].push(0);
-          }
-        }
-      }
-      return this.removeZeros(hints);
-    }
-  },
-  watch: {
-    matrix() {
-     let isEqual = true;
-     for (let i = 0; i < this.size; i++) {
-       if (this.rowGame[i]!=this.rowHints[i] || this.columnGame[i] != this.columnHints[i]) {
-         isEqual = false;
-         break;
-       }
-       if (!isEqual) break;
-     }
-     if(isEqual) this.win()
-    },
-    solution() {
-      let matrix = [];
-      for (let i = 0; i < this.size; i++) {
-        matrix.push([]);
-        for (let j = 0; j < this.size; j++) {
-          matrix[i].push(0);
-        }
-      }
-      this.matrix = matrix;
-      this.generated = true;
-    }
   },
   methods: {
-    createLevel(level = 1) {
+    createLevel(level = this.level) {
       this.winner = false;
       this.level = level;
       this.multi = true;
-      let dificulty = {
-        1: 0.5,
-        2: 0.35,
-        3: 0.5
-      };
-      let solution = [];
-      for (let i = 0; i < this.size; i++) {
-        solution.push([]);
-        for (let j = 0; j < this.size; j++) {
-          var blackwhite = Math.random() < dificulty[this.level] ? 0 : 1;
-          solution[i].push(blackwhite);
+      let grid = [];
+      let bombs = this.bombs;
+      let size = this.size*this.size;
+      for (let i = 0; i < size; i += 1) {
+        grid.push({
+          hasBomb: false,
+          isOpen: false,
+          hasFlag: false,
+          bombCount: 0,
+          neighborhood: null,
+        });
+      }
+      while (bombs > 0) {
+        const num = Math.floor(Math.random() * size);
+        if (grid[num].hasBomb === false) {
+          bombs -= 1;
+          grid[num].hasBomb = true;
         }
       }
-      this.solution = solution;
-      this.isSolved = false;
+      this.grid = grid;
+      this.finished = false;
+      this.bombCount = this.bombs;
       this.startTimer();
     },
-    mark(row, column) {
-      return () => {
-        if (!this.isSolved) {
-          this.$set(
-            this.matrix[row],
-            column,
-            this.toggleStatus(this.matrix[row][column])
-          );
-        }
-      };
+    toggleFlag(){
+      this.isFlag = !this.isFlag;
     },
-    markSwiped(row,column) {
-      return () => {
-        console.log(this.paint);
-        if (!this.isSolved) {
-          this.$set(
-            this.matrix[row],
-            column,
-            this.paint
-          );
+    clickCell(cell,i) {
+        if (this.finished) {
+          return;
+        }
+        if (cell.isOpen) {
+          return;
+        }
+        if(this.isFlag) {
+          this.longPressCell(cell)
+          return;
+        }
+        
+        if (cell.hasFlag) {
+          return;
+        }
+        
+        if (cell.hasBomb) {
+          // todo bomb!
+          const { grid } = this;
+          grid.forEach((checkCell) => {
+            if (checkCell.hasBomb) {
+              checkCell.isOpen = true;
+            }
+          });
+          this.finished = true;
+          clearInterval(this.multiTimer);
+          window.navigator.vibrate(200);
+          return;
+        }
+        this.setNeighborhood(cell, i);
+        cell.isOpen = true;
+        this.checkNeighborhood(cell);
+        this.haveWeWon();
+      
+    },
+    longPressCell(cell) {
+      if(!this.bombCount) {
+        return 
+      }
+      cell.hasFlag = !cell.hasFlag;
+      const { grid } = this;
+      const flagCount = grid.reduce((accumulator, currentValue) => {
+        if (currentValue.hasFlag) {
+          return accumulator + 1;
+        }
+        return accumulator;
+      }, 0);
+      this.bombCount = this.bombs - flagCount;
+      window.navigator.vibrate(30);
+      this.haveWeWon();
+    },
+    checkNeighborhood(cell, force) {
+      if (cell.bombCount !== 0 && force !== true) {
+        return;
+      }
+      const { grid } = this;
+      cell.neighborhood.forEach((i) => {
+        this.clickCell(grid[i], i);
+      });
+    },
+    setNeighborhood(cell, i) {
+      if (cell.neighborhood !== null) {
+        return;
+      }
+      const { grid } = this;
+      const neighborhood = [];
+      let bombCount = 0;
+      for (let x = -1; x < 2; x += 1) {
+        for (let y = -1; y < 2; y += 1) {
+          const cellIndex = this.getIndex(i, x, y);
+          if (cellIndex !== false) {
+            neighborhood.push(cellIndex);
+            if (grid[cellIndex].hasBomb) {
+              bombCount += 1;
+            }
+          }
         }
       }
+      cell.bombCount = bombCount;
+      cell.neighborhood = neighborhood;
     },
-    toggleStatus(val) {
-      var paint = {
-        0: 1,
-        1: 2,
-        2: 0
-      }; 
-      this.paint = paint[val];
-      return paint[val];
+    haveWeWon() {
+      if (this.finished) {
+        return;
+      }
+      if (this.bombCount !== 0) {
+        return;
+      }
+      const remainingGrid = this.grid.find(g => !g.isOpen && !g.hasFlag);
+      if (!remainingGrid) {
+        this.win()
+      }
     },
+    getIndex(i, x, y) {
+      const { cols, rows } = this;
+      if (x === 0 && y === 0) {
+        return false;
+      }
+      if ((i % cols) + x < 0 || (i % cols) + x >= cols) {
+        return false;
+      }
+      if (Math.floor(i / cols) + y < 0 || Math.floor(i / cols) + y >= rows) {
+        return false;
+      }
+      return i + (y * cols + x);
+    },
+    
     removeZeros(hints) {
       // remove zeros and turn into string
       for (let i in hints) {
@@ -222,6 +255,7 @@ export default {
     win() {
       clearInterval(this.multiTimer);
       setTimeout(() => {
+        this.finished = true;
         this.winner = true;
       }, 150);
       this.$store.dispatch("saveCookies",{
@@ -231,9 +265,9 @@ export default {
     },
     startTimer() {
       var times = {
-        1: 40,
+        1: 75,
         2: 120,
-        3: 200
+        3: 180
       }
       this.timeleft = times[this.level];
       clearInterval(this.multiTimer);
@@ -254,7 +288,6 @@ export default {
 <style lang="scss">
 .game-header-pescamines {
   margin-bottom: 40px;
-  background: blue;
   height: 100px !important;
   background-image: url("../../scss/img/pescamines.jpg");
 }
@@ -263,70 +296,72 @@ export default {
   display: grid;
   position: relative;
   //grid-gap: 1px;
-  span.h {
-    padding-top: 200%;
-    position: relative;
-    background: #FFF;
-    box-shadow: 0 0 5px #ddd inset;
-    line-height: 1;
-    border-radius: 10px 10px 0 0;
-    background: linear-gradient(180deg, #FFF 70%, #efefef 100%);
-    //border-left: 1px solid #fff;
-    strong {
-      width: 5px;
-    }
+  border-spacing: 0;
+  grid-gap:5px;
+  &:before {
+    content: '';
+    width: 0;
+    padding-bottom: 100%;
+    grid-row: 1 / 1;
+    grid-column: 1 / 1;
   }
-  span.c {
-    padding-top: 100%;
-    box-shadow: 0 0 2px #ccc inset;
-  }
-  span.q {
-    background: #fff !important;
-    border: 0 !important;
-    box-shadow: none;
-  }
-  span.r {
-    border-radius: 10px 0 0 10px;
-    padding-top: 50%;
-    position: relative;
-    background: linear-gradient(90deg, #FFF 70%, #efefef 100%);
-    box-shadow: 0 0 5px #ddd inset;
-    
-    strong {
-      min-width: 70px;
-    }
-  }
-  strong {
-    position: absolute;
-    display: block;
-    top: 50%;
-    left: 50%;
-    font-size: 12px;
-    transform: translate(-50%, -50%);
+  > *:first-child {
+    grid-row: 1 / 1;
+    grid-column: 1 / 1;
   }
   span {
-    background: #fff;
-    display: block;
-    height: 0;
     &.completed {
       color: #bbb;
       background: #eee;
       box-shadow: none;
     }
-    &.sel {
-      background: #000 !important;
-    }
-    &.disc {
-      background-image: url("../../scss/img/cross.svg");
-      background-size: cover;
-    }
   }
-  &.x8 {
-    grid-template-columns: repeat(8, 1fr);
-    grid-column-start: 1;
-    grid-column-end: 11;
-    grid-row-start: 1;
-    grid-row-end: 11;
+  &.x9 {
+    grid-template-columns: repeat(9, 1fr);
+  }
+  &.x12 {
+    grid-template-columns: repeat(12, 1fr);
+  }
+  &.x14 {
+    grid-template-columns: repeat(14, 1fr);
   }
 }
+.mineoptions {
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  .btn-new {
+    width: 42px;
+    height: 42px;
+    background-size: 60% auto;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .btn-flag {
+    width: 42px;
+    height: 42px;
+    background-image: url("../../scss/img/flag.svg");
+    background-size: 60% auto;
+    background-position: center;
+    background-repeat: no-repeat;
+    &.checked {
+      background-color: yellow;
+      box-shadow: 0 0 0 rgba(0,0,0,0) !important;
+    }
+  }
+}
+.minecounter {
+  width: auto;
+  padding-top: 15px;
+  padding-right: 30px;
+  background-image: url("../../scss/img/bomb.svg");
+  background-size: 20px 20px;
+  background-position: right center;
+  background-repeat: no-repeat;
+}
+.lose {
+  font-size: 42px;
+}
+
 </style>

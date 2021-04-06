@@ -22,16 +22,17 @@ require '../api/connection.php';
         <td>Joc</td>
         <td>Hora</td>
         <td>Nom</td>
+        <td>Punts</td>
         <td>Galetes</td>
     </tr>
     </thead>
       <?php
 
-        $res = $conn->query("SELECT partides.game,partides.created_at,boles.nom,partides.cookies FROM partides INNER JOIN boles ON partides.userid=boles.userid ORDER BY partides.created_at DESC LIMIT 500");
+        $res = $conn->query("SELECT partides.game,partides.created_at,boles.nom,partides.newcookies,partides.cookies FROM partides INNER JOIN boles ON partides.userid=boles.userid ORDER BY partides.created_at DESC LIMIT 500");
         $partides = $res->fetchAll(PDO::FETCH_ASSOC);
 
         foreach($partides as $p):
-            ?><tr><td><?= $p["game"] ?></td><td><?= $p["created_at"] ?></td><td><?= $p["nom"] ?></td><td><?= $p["cookies"] ?></td></tr><?php
+            ?><tr><td><?= $p["game"] ?></td><td><?= $p["created_at"] ?></td><td><?= $p["nom"] ?></td><td><?= $p["newcookies"] ?></td><td><?= $p["cookies"] ?></td></tr><?php
         endforeach;
         
         ?>

@@ -312,18 +312,21 @@ export default {
     padding-top: 200%;
     position: relative;
     background: #FFF;
-    box-shadow: 0 0 5px #ddd inset;
     line-height: 1;
     border-radius: 10px 10px 0 0;
-    background: linear-gradient(180deg, #FFF 70%, #efefef 100%);
+    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgb(224, 226, 231) 100%);
     //border-left: 1px solid #fff;
+    border-right: 1px solid #FFF;
     strong {
       width: 5px;
     }
   }
   span.c {
     padding-top: 100%;
-    box-shadow: 0 0 2px #ccc inset;
+    //box-shadow: 0 0 2px #ccc inset;
+    border-width: 0 1px 1px 0;
+    border-color: rgb(224, 226, 231);
+    border-style: solid;
   }
   span.q {
     background: #fff !important;
@@ -334,8 +337,9 @@ export default {
     border-radius: 10px 0 0 10px;
     padding-top: 50%;
     position: relative;
-    background: linear-gradient(90deg, #FFF 70%, #efefef 100%);
-    box-shadow: 0 0 5px #ddd inset;
+    //background: linear-gradient(90deg, #FFF 70%, #efefef 100%);
+    background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgb(224, 226, 231) 100%);
+    //box-shadow: 0 0 5px #ddd inset;
     
     strong {
       min-width: 70px;
@@ -354,8 +358,8 @@ export default {
     display: block;
     height: 0;
     &.completed {
-      color: #bbb;
-      background: #eee;
+      color: rgb(158, 164, 179);
+      background: rgb(224, 226, 231);
       box-shadow: none;
     }
     &.sel {
@@ -388,8 +392,8 @@ export default {
       display: block;
       width: 83.33%;
       height: 2px;
-      background: #999;
-      top: 58%;
+      background: rgb(90, 92, 99);
+      top: 57.8%;
       right: 0;
       z-index: 10;
     }
@@ -397,10 +401,10 @@ export default {
       position: absolute;
       content: "";
       display: block;
-      height: 83.2%;
+      height: 83.4%;
       width: 2px;
-      background: #999;
-      left: 58.2%;
+      background: rgb(90, 92, 99);
+      left: 58.1%;
       bottom: 0;
       z-index: 10;
     }

@@ -1,27 +1,32 @@
 <template>
   <section class="container pad container-user">
-    <h2>{{cookies}} 🍪</h2>
+
+    <h2>Tens {{cookies}} galetes 🍪</h2>
+
     <p class="form">
-      Nom:
+      {{$t("nom")}}:
       <input v-model="name" class="field">
-      <button class="btn" @click="changeName()">Canviar nom</button>
+      <button class="btn" @click="changeName()"> {{$t("canviar_nom")}}</button>
     </p>
-    <hr>
+
     <p>
-      Codi d'usuari:
+      {{$t('codi_usuari')}}:
       <br />
       <code class="field">{{$parent.userId}}</code>
     </p>
-    <p>El pots fer servir per identificar-te quan vulguis guanyar galetes des d'un altre ordenyador o mòbil.</p>
-    <hr>
-    <p>
-      <button class="btn" @click="exit()">Sortir</button>
+    <p>{{$t('codi_instruccions')}}</p>
+
+    <p class="form">
+      <button class="btn" @click="exit()">{{$t("sortir")}}</button>
     </p>
-    <!--
-    <hr>
-    <p>Idioma</p>
-    <button @click="changeLang('en')">English</button>
-    -->
+
+
+    <p class="form">{{$t("idioma")}}:<br>
+    <button @click="changeLang('ca')" class="btn">Català</button>
+    <button @click="changeLang('en')" class="btn">English</button>
+    <button @click="changeLang('es')" class="btn">Castellano</button>
+    </p>
+
   </section>
 </template>
 <script>
