@@ -1,8 +1,10 @@
 .DS_Store
 node_modules
 vendor
-/dist
+dist
+ftpdeploy
 /_NO
+
 
 # local env files
 .env
