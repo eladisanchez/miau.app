@@ -38,10 +38,14 @@
             v-for="(column, columnIndex) in row"
             v-touch="mark(rowIndex,columnIndex)"
             :key="rowIndex+''+columnIndex"
+            v-long-press="300"
+            @long-press-start="longPress(rowIndex,columnIndex)"
           ></span>
         </template>
       </div>
     </div>
+
+    <p class="tip">Per marcar una casella amb una creu manten-la pressionada.</p>
 
     <transition name="fade">
       <div class="winner" v-if="winner" @click="createLevel(level)">
@@ -55,7 +59,11 @@
   </section>
 </template>
 <script>
+import LongPress from 'vue-directive-long-press'
 export default {
+  directives: {
+    'long-press': LongPress
+  },
   data() {
     return {
       generated: false,
@@ -70,6 +78,7 @@ export default {
       solved: false,
       paint: 0,
       panMode: false,
+      longpressing: false
     };
   },
   computed: {
@@ -227,6 +236,9 @@ export default {
     },
     mark(row, column) {
       return () => {
+        if (this.longpressing) {
+          this.longpressing = false; return;
+        }
         if (!this.isSolved) {
           this.$set(
             this.matrix[row],
@@ -235,6 +247,19 @@ export default {
           );
         }
       };
+    },
+    longPress(row,column) {
+      if(!this.solved) {
+        let status = this.matrix[row][column]?0:2;
+        this.$set(
+          this.matrix[row],
+          column,
+          status
+        );
+      }
+      this.longpressing = true;
+      window.navigator.vibrate(10);
+      return
     },
     markSwiped(row,column) {
       return () => {
@@ -265,6 +290,7 @@ export default {
       return hints;
     },
     win() {
+      window.navigator.vibrate(100);
       clearInterval(this.multiTimer);
       setTimeout(() => {
         this.winner = true;

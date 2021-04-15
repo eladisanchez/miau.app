@@ -186,7 +186,7 @@ footer {
     background-color: #FFF;
     //border: 1px solid #000;
     border: 0;
-    box-shadow: 0 0 8px rgba(22, 39, 49, 0.2);
+    box-shadow: 0 0 8px #16273133;
     color: #000;
     padding: .5em 1em;
     font-weight: bold;
@@ -197,6 +197,7 @@ footer {
     font-size: 18px;
     font-family: 'Eina',sans-serif;
     letter-spacing: -.05em;
+    transition: .2s ease-in-out all;
     &:disabled {
         opacity: .5;
     }
@@ -204,6 +205,13 @@ footer {
         outline:none;
         box-shadow: 0 0 10px yellow;
     }
+}
+
+.tip {
+    color: #999;
+    font-size: 11px;
+    text-align: center;
+    margin-top: 26px;
 }
 
 @keyframes fadeInUp {

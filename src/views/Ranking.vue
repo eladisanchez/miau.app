@@ -1,15 +1,18 @@
 <template>
   <section class="ranking">
     <div class="container">
-    <h2>Rànquing {{month}}</h2>
+    <h2>{{$t('ranquing')}}</h2>
+    <div class="order-ranking">
+      <button class="btn" @click="sortby='month'" :class="sortby=='month'?'selected':''"><img src="../scss/img/calendar.svg">{{month}}</button>
+      <button class="btn" @click="sortby='total'" :class="sortby=='total'?'selected':''"><img src="../scss/img/medal.svg">Total</button>
+    </div>
     <transition name="fade" mode="out-in">
     <div class="ranking-list" v-if="loaded">
       <table class="ranking-table">
-        <tr><th></th><th class="text-center">{{month}}</th><th class="text-center">Total</th><th></th></tr>
-        <tr v-for="(player, i) in players" :key="'player'+i">
+        <tr v-for="(player, i) in ranking" :key="'player'+i">
           <td><span class="pos">{{parseInt(i+1)}}</span><strong>{{ player.nom }}</strong> <small>{{player.updated | timeago}}</small></td>
-          <td class="text-center r-month">{{numFormat(player.monthcookies)}}</td>
-          <td class="text-center">{{numFormat(player.galetes)}}</td>
+          <td class="text-center" :class="sortby=='month'?'r-month':''">{{numFormat(player.monthcookies)}}</td>
+          <td class="text-center" :class="sortby=='total'?'r-month':''">{{numFormat(player.galetes)}}</td>
         </tr>
       </table>
       <!--<p v-for="(player, i) in players" :key="'player'+i">
@@ -28,7 +31,8 @@ export default {
   data() {
     return {
       loaded: false,
-      players: []
+      players: [],
+      sortby: 'month'
     };
   },
   methods: {
@@ -62,6 +66,15 @@ export default {
     userid(){
       return this.$store.getters.user.userId
     },
+    ranking() {
+      var players = this.players;
+      if(this.sortby=='month') {
+        players.sort((a, b) =>  b.monthcookies - a.monthcookies)
+      } else {
+        players.sort((a, b) => b.galetes - a.galetes)
+      }
+      return players.slice(0,200);
+    },
     month(){
       var date = new Date();
       var mesos = {
@@ -87,6 +100,25 @@ export default {
 };
 </script>
 <style lang="scss">
+.order-ranking {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  .btn {
+    flex-grow: 1;
+    img {
+      height: 20px;
+      width: 20px;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+    &.selected {
+      background: rgba(22, 39, 49, 0.1);
+      box-shadow: none;
+    }
+  }
+}
 .text-right {
   text-align: right;
 }
@@ -96,20 +128,17 @@ export default {
 .ranking-table {
   width: 100%;
   border-collapse: collapse;
-  td {
-    font-size: 12px;
-  }
   th {
     font-size: 10px;
     font-family: 'Eina',sans-serif;
     padding: 4px 6px;
   }
   td,th {
-    padding: 4px 0;
+    padding: 4px 2px;
   }
 }
 .r-month {
-  background: rgb(247, 246, 198);
+  background: rgba(22, 39, 49, 0.1);
 }
 .ranking {
   background: #FFF;
@@ -142,6 +171,7 @@ export default {
     margin-top: 0;
     margin-bottom: 10px;
     text-align: center;
+    font-size: 2rem;
   }
   p.top25 {
     color: #666;

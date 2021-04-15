@@ -2,6 +2,7 @@
 node_modules
 vendor
 /dist
+/_NO
 
 # local env files
 .env

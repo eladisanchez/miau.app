@@ -234,6 +234,8 @@ export default {
 
     win() {
 
+      window.navigator.vibrate(100);
+
       clearInterval(this.multiTimer);
       this.$store.dispatch('saveCookies',{
         cookies: this.points,

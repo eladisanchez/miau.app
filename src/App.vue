@@ -4,8 +4,8 @@
       <div class="container pad">
         <router-link :to="'/'" class="eina">miau.app</router-link>
         <span class="userinfo">
-          <span class="user">{{ user }}</span>
-          &nbsp;🍪
+          <strong class="user">{{ user }}</strong>
+          🍪
           <span class="cookies">{{ cookies }}</span>
         </span>
       </div>
@@ -114,6 +114,12 @@ export default {
 };
 </script>
 <style lang="scss">
+.userinfo {
+  font-size: 12px;
+  .user {
+    margin-right: 3px;
+  }
+}
 .login {
   display: flex;
   align-items: center;

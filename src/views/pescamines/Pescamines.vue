@@ -35,6 +35,8 @@
       </div>
     </div>
 
+    <p class="tip">Per posar una bandera a una casella manten-la pressionada.</p>
+
     <transition name="fade">
       <div class="winner" v-if="winner" @click="createLevel(level)">
         <div>
@@ -69,7 +71,8 @@ export default {
       winner: false,
       grid: [],
       bombCount: 0,
-      isFlag: false
+      isFlag: false,
+      longpressing: false
     };
   },
   computed: {
@@ -139,6 +142,10 @@ export default {
       this.isFlag = !this.isFlag;
     },
     clickCell(cell,i) {
+        if(this.longpressing) {
+          this.longpressing = false;
+          return;
+        }
         if (this.finished) {
           return;
         }
@@ -174,7 +181,7 @@ export default {
       
     },
     longPressCell(cell) {
-      if(!this.bombCount) {
+      if(!this.bombCount || cell.isOpen) {
         return 
       }
       cell.hasFlag = !cell.hasFlag;
@@ -186,8 +193,9 @@ export default {
         return accumulator;
       }, 0);
       this.bombCount = this.bombs - flagCount;
-      window.navigator.vibrate(30);
+      window.navigator.vibrate(10);
       this.haveWeWon();
+      this.longpressing = true;
     },
     checkNeighborhood(cell, force) {
       if (cell.bombCount !== 0 && force !== true) {
@@ -253,6 +261,7 @@ export default {
       return hints;
     },
     win() {
+      window.navigator.vibrate(100);
       clearInterval(this.multiTimer);
       setTimeout(() => {
         this.finished = true;

@@ -10,7 +10,7 @@
     <router-link to="nonogram" class="btn-game btn">🔲 {{ $t('nono') }}</router-link>
     <router-link to="mastermind" class="btn-game btn">🧠 {{ $t('master') }}</router-link>
     <router-link to="pescamines" class="btn-game btn">🚩 {{ $t('pescamines') }}</router-link>
-    <!--<button disabled class="btn-game btn">🚩 {{ $t('pescamines') }}</button>-->
+    <button disabled class="btn-game btn">???</button>
     </div>
     <!--<div class="news">
       <h4>NOVETATS!</h4>
@@ -80,6 +80,9 @@ export default {
   &:nth-child(4){
     animation-delay: .4s;
   }
+  &:nth-child(5){
+    animation-delay: .5s;
+  }
 }
 .aviat {
   color: #999;
@@ -89,8 +92,8 @@ a {
 }
 .cat {
   display: block;
-  height: 200px;
-  background-size: 190px 190px;
+  height: 180px;
+  background-size: 150px 150px;
   background-position: center bottom;
   background-repeat: no-repeat;
   position: relative;

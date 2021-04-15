@@ -132,6 +132,7 @@ export default {
       this.guess[this.guesses].pop();
     },
     win() {
+      window.navigator.vibrate(100);
       clearInterval(this.multiTimer);
       setTimeout(() => {
         this.winner = true;
