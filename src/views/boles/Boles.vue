@@ -1,17 +1,37 @@
 <template>
   <section class="container">
     <div class="game-header game-header-boles">
-      <h2>{{$t("boles")}}</h2>
+      <h2>{{ $t("boles") }}</h2>
 
       <transition name="fade">
         <div id="countdown" v-if="multi">{{ timeleft }}" 🍪 x2</div>
       </transition>
 
       <nav class="nivells">
-        <span data-level="1" @click="createLevel(1)" :class="{current:level==1}">Fase 0</span>
-        <span data-level="2" @click="createLevel(2)" :class="{current:level==2}">Fase 0,5</span>
-        <span data-level="3" @click="createLevel(3)" :class="{current:level==3}">Fase 1</span>
-        <span data-level="4" @click="createLevel(4)" :class="{current:level==4}">NN</span>
+        <span
+          data-level="1"
+          @click="createLevel(1)"
+          :class="{ current: level == 1 }"
+          >Fase 0</span
+        >
+        <span
+          data-level="2"
+          @click="createLevel(2)"
+          :class="{ current: level == 2 }"
+          >Fase 0,5</span
+        >
+        <span
+          data-level="3"
+          @click="createLevel(3)"
+          :class="{ current: level == 3 }"
+          >Fase 1</span
+        >
+        <span
+          data-level="4"
+          @click="createLevel(4)"
+          :class="{ current: level == 4 }"
+          >NN</span
+        >
       </nav>
     </div>
 
@@ -19,12 +39,14 @@
       <div
         class="tube"
         :data-tube="i"
-        v-for="(tube,i) in tubes"
+        v-for="(tube, i) in tubes"
         :key="i"
         v-touch="select(i)"
-        :class="[{checked: selected==i},{completed: tube.completed}]"
+        :class="[{ checked: selected == i }, { completed: tube.completed }]"
       >
-        <ball v-bind:color="bola" v-for="(bola,b) in tube.balls" :key="b">{{bola}}</ball>
+        <ball v-bind:color="bola" v-for="(bola, b) in tube.balls" :key="b">{{
+          bola
+        }}</ball>
       </div>
     </div>
 
@@ -43,21 +65,20 @@
       <div class="winner" v-if="winner" @click="createLevel(level)">
         <div>
           <h2>Molt bé</h2>
-          <p>Has guanyat {{galetext[points]}}</p>
+          <p>Has guanyat {{ galetext[points] }}</p>
           <p class="galeta">🍪</p>
         </div>
       </div>
     </transition>
-    
   </section>
 </template>
 <script>
-import Tube from './tube'
-import Ball from './Ball'
+import Tube from "./tube";
+import Ball from "./Ball";
 export default {
-  props: ['ristra'],
+  props: ["ristra"],
   components: {
-    'ball': Ball
+    ball: Ball,
   },
   data() {
     return {
@@ -70,20 +91,20 @@ export default {
       levels: {
         1: {
           colors: 7,
-          tubes: 9
+          tubes: 9,
         },
         2: {
           colors: 9,
-          tubes: 11
+          tubes: 11,
         },
         3: {
           colors: 12,
-          tubes: 14
+          tubes: 14,
         },
         4: {
           colors: 14,
-          tubes: 16
-        }
+          tubes: 16,
+        },
       },
       timeleft: 40,
       multiTimer: null,
@@ -101,7 +122,7 @@ export default {
         8: "8 galetamens",
         10: "10 galetufes",
         14: "14 galetufes",
-        16: "16 galetúfigues!"
+        16: "16 galetúfigues!",
       },
     };
   },
@@ -114,17 +135,17 @@ export default {
         1: 1,
         2: 3,
         3: 5,
-        4: 8
+        4: 8,
       };
       var points = pointsByLevel[this.level];
       if (this.cheat) points -= 1;
       if (this.multi) points *= 2;
       return points;
-    }
+    },
   },
-  beforeRouteLeave(to,from,next) {
-    document.body.classList.remove("darkmode")
-    next()
+  beforeRouteLeave(to, from, next) {
+    document.body.classList.remove("darkmode");
+    next();
   },
   methods: {
     setDefaults() {
@@ -139,10 +160,10 @@ export default {
     createLevel(level = 2) {
       this.setDefaults();
       this.level = level;
-      if(this.ristra) {
-        var balls = this.ristra.split('-');
-        console.log(balls)
-        var numTubes = balls.length/4+2;
+      if (this.ristra) {
+        var balls = this.ristra.split("-");
+        console.log(balls);
+        var numTubes = balls.length / 4 + 2;
         for (let i = 0; i < numTubes; i++) {
           this.tubes.push(new Tube());
         }
@@ -174,7 +195,7 @@ export default {
         } else {
           this.selected = ball;
         }
-      }
+      };
     },
     changeBall(origin, destiny) {
       if (this.tubes[destiny].balls.length < 4) {
@@ -188,7 +209,7 @@ export default {
           this.steps.push([origin, destiny]);
 
           if (
-            this.tubes.filter(t => t.completed == 1).length ==
+            this.tubes.filter((t) => t.completed == 1).length ==
             this.balls.length / 4
           ) {
             this.win();
@@ -216,7 +237,7 @@ export default {
 
     setBalls() {
       let t = 0;
-      this.balls.forEach(ball => {
+      this.balls.forEach((ball) => {
         let gi = Math.floor(t / 4);
         this.tubes[gi].pushBall(ball);
         t++;
@@ -224,7 +245,7 @@ export default {
     },
 
     reset() {
-      this.tubes.forEach(tube => {
+      this.tubes.forEach((tube) => {
         tube.balls = [];
         tube.completed = 0;
       });
@@ -233,18 +254,16 @@ export default {
     },
 
     win() {
-
       window.navigator.vibrate(100);
 
       clearInterval(this.multiTimer);
-      this.$store.dispatch('saveCookies',{
+      this.$store.dispatch("saveCookies", {
         cookies: this.points,
-        game: 'boles'
-      })
+        game: "boles",
+      });
       setTimeout(() => {
         this.winner = true;
       }, 100);
-
     },
 
     startTimer() {
@@ -252,8 +271,8 @@ export default {
         1: 30,
         2: 60,
         3: 120,
-        4: 180
-      }
+        4: 180,
+      };
       this.timeleft = times[this.level];
       clearInterval(this.multiTimer);
       this.multiTimer = setInterval(() => {
@@ -268,7 +287,7 @@ export default {
     darkmode() {
       const el = document.body;
       if (el.classList.contains("darkmode")) {
-        el.classList.remove("darkmode")
+        el.classList.remove("darkmode");
       } else {
         el.classList.add("darkmode");
       }
@@ -276,14 +295,13 @@ export default {
 
     dracmode() {
       const el = document.body;
-        if (el.classList.contains("dracmode")) {
-          el.classList.remove("dracmode")
-        } else {
-          el.classList.add("dracmode");
+      if (el.classList.contains("dracmode")) {
+        el.classList.remove("dracmode");
+      } else {
+        el.classList.add("dracmode");
       }
-    }
-
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">
@@ -297,7 +315,11 @@ export default {
   flex-wrap: wrap;
   justify-content: space-between;
   padding: 0 20px;
-  background: linear-gradient(0deg, rgba(0, 0, 0, .4) 0%, rgba(0, 0, 0, 0) 100%);
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.4) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
   span {
     flex-grow: 1;
     cursor: pointer;

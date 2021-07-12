@@ -1,57 +1,72 @@
 <template>
   <section class="container">
     <div class="game-header game-header-nonogram">
-      <h2>
-        Nonogram
-      </h2>
+      <h2>Nonogram</h2>
       <transition name="fade">
         <div id="countdown" v-if="multi">{{ timeleft }}" 🍪 x2</div>
       </transition>
       <nav class="nivells">
-        <span data-level="1" @click="createLevel(1)" :class="{current:level==1}">Xupat</span>
-        <span data-level="2" @click="createLevel(2)" :class="{current:level==2}">Xunguet</span>
-        <span data-level="3" @click="createLevel(3)" :class="{current:level==3}">Xungot</span>
+        <span
+          data-level="1"
+          @click="createLevel(1)"
+          :class="{ current: level == 1 }"
+          >Xupat</span
+        >
+        <span
+          data-level="2"
+          @click="createLevel(2)"
+          :class="{ current: level == 2 }"
+          >Xunguet</span
+        >
+        <span
+          data-level="3"
+          @click="createLevel(3)"
+          :class="{ current: level == 3 }"
+          >Xungot</span
+        >
       </nav>
     </div>
     <div class="pad">
-      <div :class="'nonogrid x'+size" v-if="generated">
+      <div :class="'nonogrid x' + size" v-if="generated">
         <span class="c q"></span>
         <span
           class="h"
           v-for="(hint, index) in columnHints"
-          :key="'h'+index"
-          :class="{completed:hint==columnGame[index]}"
+          :key="'h' + index"
+          :class="{ completed: hint == columnGame[index] }"
         >
           <strong>{{ hint || 0 }}</strong>
         </span>
-        <template v-for="(row,rowIndex) in matrix">
+        <template v-for="(row, rowIndex) in matrix">
           <span
             class="r"
-            :key="'r'+rowIndex"
-            :class="{completed:rowHints[rowIndex]==rowGame[rowIndex]}"
+            :key="'r' + rowIndex"
+            :class="{ completed: rowHints[rowIndex] == rowGame[rowIndex] }"
           >
             <strong>{{ rowHints[rowIndex] || 0 }}</strong>
           </span>
           <span
             class="c"
-            :class="{'sel':column==1,'disc':column==2}"
+            :class="{ sel: column == 1, disc: column == 2 }"
             v-for="(column, columnIndex) in row"
-            v-touch="mark(rowIndex,columnIndex)"
-            :key="rowIndex+''+columnIndex"
+            v-touch="mark(rowIndex, columnIndex)"
+            :key="rowIndex + '' + columnIndex"
             v-long-press="300"
-            @long-press-start="longPress(rowIndex,columnIndex)"
+            @long-press-start="longPress(rowIndex, columnIndex)"
           ></span>
         </template>
       </div>
     </div>
 
-    <p class="tip">Per marcar una casella amb una creu manten-la pressionada.</p>
+    <p class="tip">
+      Per marcar una casella amb una creu manten-la pressionada.
+    </p>
 
     <transition name="fade">
       <div class="winner" v-if="winner" @click="createLevel(level)">
         <div>
           <h2>Molt bé</h2>
-          <p>Has guanyat {{points}} galetes</p>
+          <p>Has guanyat {{ points }} galetes</p>
           <p class="galeta">🍪</p>
         </div>
       </div>
@@ -59,10 +74,10 @@
   </section>
 </template>
 <script>
-import LongPress from 'vue-directive-long-press'
+import LongPress from "vue-directive-long-press";
 export default {
   directives: {
-    'long-press': LongPress
+    "long-press": LongPress,
   },
   data() {
     return {
@@ -78,7 +93,7 @@ export default {
       solved: false,
       paint: 0,
       panMode: false,
-      longpressing: false
+      longpressing: false,
     };
   },
   computed: {
@@ -86,7 +101,7 @@ export default {
       let sizes = {
         1: 5,
         2: 10,
-        3: 10
+        3: 10,
       };
       return sizes[this.level];
     },
@@ -94,7 +109,7 @@ export default {
       let pointsByLevel = {
         1: 2,
         2: 4,
-        3: 7
+        3: 7,
       };
       var points = pointsByLevel[this.level];
       if (this.multi) points *= 2;
@@ -157,7 +172,7 @@ export default {
         }
       }
       return this.removeZeros(hints);
-    }
+    },
   },
   watch: {
     matrix() {
@@ -178,15 +193,18 @@ export default {
       }
       if (isEqual) this.win();
       */
-     let isEqual = true;
-     for (let i = 0; i < this.size; i++) {
-       if (this.rowGame[i]!=this.rowHints[i] || this.columnGame[i] != this.columnHints[i]) {
-         isEqual = false;
-         break;
-       }
-       if (!isEqual) break;
-     }
-     if(isEqual) this.win()
+      let isEqual = true;
+      for (let i = 0; i < this.size; i++) {
+        if (
+          this.rowGame[i] != this.rowHints[i] ||
+          this.columnGame[i] != this.columnHints[i]
+        ) {
+          isEqual = false;
+          break;
+        }
+        if (!isEqual) break;
+      }
+      if (isEqual) this.win();
     },
     solution() {
       let matrix = [];
@@ -198,7 +216,7 @@ export default {
       }
       this.matrix = matrix;
       this.generated = true;
-    }
+    },
   },
   methods: {
     togglePanMode(val) {
@@ -207,9 +225,9 @@ export default {
     move(e) {
       let p = e.touches[0];
       let el = document.elementFromPoint(p.clientX, p.clientY);
-      let cmp = this.$children.find(c => c.$el === el);
+      let cmp = this.$children.find((c) => c.$el === el);
       if (cmp) {
-        console.log(cmp)
+        console.log(cmp);
         //cmp.setActive()
       }
     },
@@ -220,7 +238,7 @@ export default {
       let dificulty = {
         1: 0.5,
         2: 0.35,
-        3: 0.5
+        3: 0.5,
       };
       let solution = [];
       for (let i = 0; i < this.size; i++) {
@@ -237,7 +255,8 @@ export default {
     mark(row, column) {
       return () => {
         if (this.longpressing) {
-          this.longpressing = false; return;
+          this.longpressing = false;
+          return;
         }
         if (!this.isSolved) {
           this.$set(
@@ -248,44 +267,36 @@ export default {
         }
       };
     },
-    longPress(row,column) {
-      if(!this.solved) {
-        let status = this.matrix[row][column]?0:2;
-        this.$set(
-          this.matrix[row],
-          column,
-          status
-        );
+    longPress(row, column) {
+      if (!this.solved) {
+        let status = this.matrix[row][column] ? 0 : 2;
+        this.$set(this.matrix[row], column, status);
       }
       this.longpressing = true;
       window.navigator.vibrate(10);
-      return
+      return;
     },
-    markSwiped(row,column) {
+    markSwiped(row, column) {
       return () => {
         console.log(this.paint);
         if (!this.isSolved) {
-          this.$set(
-            this.matrix[row],
-            column,
-            this.paint
-          );
+          this.$set(this.matrix[row], column, this.paint);
         }
-      }
+      };
     },
     toggleStatus(val) {
       var paint = {
         0: 1,
         1: 2,
-        2: 0
-      }; 
+        2: 0,
+      };
       this.paint = paint[val];
       return paint[val];
     },
     removeZeros(hints) {
       // remove zeros and turn into string
       for (let i in hints) {
-        hints[i] = hints[i].filter(hint => hint > 0).join(" ");
+        hints[i] = hints[i].filter((hint) => hint > 0).join(" ");
       }
       return hints;
     },
@@ -295,17 +306,17 @@ export default {
       setTimeout(() => {
         this.winner = true;
       }, 150);
-      this.$store.dispatch("saveCookies",{
+      this.$store.dispatch("saveCookies", {
         cookies: this.points,
-        game: 'nono'
+        game: "nono",
       });
     },
     startTimer() {
       var times = {
         1: 15,
         2: 100,
-        3: 180
-      }
+        3: 180,
+      };
       this.timeleft = times[this.level];
       clearInterval(this.multiTimer);
       this.multiTimer = setInterval(() => {
@@ -315,11 +326,11 @@ export default {
         }
         this.timeleft -= 1;
       }, 1000);
-    }
+    },
   },
   created() {
     this.createLevel();
-  }
+  },
 };
 </script>
 <style lang="scss">
@@ -337,12 +348,16 @@ export default {
   span.h {
     padding-top: 200%;
     position: relative;
-    background: #FFF;
+    background: #fff;
     line-height: 1;
     border-radius: 10px 10px 0 0;
-    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgb(224, 226, 231) 100%);
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgb(224, 226, 231) 100%
+    );
     //border-left: 1px solid #fff;
-    border-right: 1px solid #FFF;
+    border-right: 1px solid #fff;
     strong {
       width: 5px;
     }
@@ -364,9 +379,13 @@ export default {
     padding-top: 50%;
     position: relative;
     //background: linear-gradient(90deg, #FFF 70%, #efefef 100%);
-    background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgb(224, 226, 231) 100%);
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgb(224, 226, 231) 100%
+    );
     //box-shadow: 0 0 5px #ddd inset;
-    
+
     strong {
       min-width: 70px;
     }

@@ -1,195 +1,232 @@
-
 .icona {
-    display: block;
-    margin: 0 auto;
-    width: 400px;
-    height: auto;
+  display: block;
+  margin: 0 auto;
+  width: 400px;
+  height: auto;
 }
 
 .hud {
-    background: #FFF;
-    color: #000;
-    border: 1px #000 solid;
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-    border-radius: 0 0 20px 20px
+  background: #fff;
+  color: #000;
+  border: 1px #000 solid;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  border-radius: 0 0 20px 20px;
 }
 
 .controls {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    .btn {
-        display: block;
-        flex-grow: 1;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: auto 25px;
-        height: 40px;
-    }
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  .btn {
+    display: block;
+    flex-grow: 1;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto 25px;
+    height: 40px;
+  }
 }
 .btn-reset {
-    background-image: url("img/ico-reset.svg");
+  background-image: url("img/ico-reset.svg");
 }
 .btn-undo {
-    background-image: url("img/ico-back.svg");
+  background-image: url("img/ico-back.svg");
 }
 .btn-newtube {
-    background-image: url("img/ico-joker.svg");
+  background-image: url("img/ico-joker.svg");
 }
 .btn-new {
-    background-image: url("img/ico-next.svg");
+  background-image: url("img/ico-next.svg");
 }
 .btn-playpause {
-    background-image: url("img/ico-music.svg");
+  background-image: url("img/ico-music.svg");
 }
 
 .game {
-    text-align: center;
-    margin: 0 auto;
-    transition: 1s ease all;
-    padding: 20px 0;
+  text-align: center;
+  margin: 0 auto;
+  transition: 1s ease all;
+  padding: 20px 0;
 }
 .tube {
+  display: inline-block;
+  border-style: solid;
+  //border-color: #000;
+  //border-width: 0 2px 2px 2px;
+  border-width: 0;
+  border-radius: 0 0 30px 30px;
+  //box-shadow: 0 0 2px #000;
+  margin: 8px 5px;
+  padding: 5px;
+  width: 44px;
+  height: 150px;
+  position: relative;
+  cursor: pointer;
+  transition: 0.2s ease all;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgb(224, 226, 231) 100%);
+  .darkmode & {
+    border-color: #fff;
+  }
+  .ball {
+    position: absolute;
+    left: 6px;
+    //box-shadow: 0 0 1px 1px #FFF;
     display: inline-block;
-    border-style: solid;
-    //border-color: #000;
-    //border-width: 0 2px 2px 2px;
-    border-width: 0;
-    border-radius: 0 0 30px 30px;
-    //box-shadow: 0 0 2px #000;
-    margin: 8px 5px;
-    padding: 5px;
-    width: 44px;
-    height: 150px;
-    position: relative;
-    cursor: pointer;
-    transition: .2s ease all;
-    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgb(224, 226, 231) 100%);
-    .darkmode & {
-        border-color: #FFF;
+    width: 32px;
+    height: 32px;
+    border-radius: 30px;
+    padding-top: 6px;
+    color: rgba(#fff, 0.3);
+    font-size: 14px;
+    line-height: 22px;
+    font-family: "Eina", sans-serif;
+    &.color0 {
+      background: #e72222;
     }
-    .ball {
-        position: absolute;
-        left: 6px;
-        //box-shadow: 0 0 1px 1px #FFF;
-        display: inline-block;
-        width: 32px;
-        height: 32px;
-        border-radius: 30px;
-        padding-top: 6px;
-        color: rgba(#FFF,.3);
-        font-size: 14px;
-        line-height: 22px;
-        font-family: 'Eina',sans-serif;
-        &.color0 { background: #e72222; }
-        &.color1 { background: #355FDC; }
-        &.color2 { background: #85E631; color: rgba(#000,.2);}
-        &.color3 { background: #f1da03; color: rgba(#000,.2);}
-        &.color4 { background: #a122dc; }
-        &.color5 { background: #F37D26; }
-        &.color6 { background: #196E2A; }
-        &.color7 { background: #8D5C5C; }
-        &.color8 { background: #f5478f; }
-        &.color9 { background: #61CBEE; color: rgba(#000,.2) }
-        &.color10 { background: gray }
-        &.color11 { background: #bdbe5e; }
-        &.color12 { background: #17285a; }
-        &.color13 { background: #0eb89c; }
-        &:nth-child(1) { bottom: 4px; }
-        &:nth-child(2) { bottom: 38px; }
-        &:nth-child(3) { bottom: 72px; }
-        &:nth-child(4) { bottom: 106px; }
-        transition: .2s ease all;
+    &.color1 {
+      background: #355fdc;
     }
-    &.checked {
-        background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgb(206, 209, 216) 100%);
-        .ball:last-child {
-            transform: translateY(-22px);
-        }
+    &.color2 {
+      background: #85e631;
+      color: rgba(#000, 0.2);
     }
-    &.completed {
-        background: rgba(yellow,.8);
-        animation: tube-completed .4s;
+    &.color3 {
+      background: #f1da03;
+      color: rgba(#000, 0.2);
     }
+    &.color4 {
+      background: #a122dc;
+    }
+    &.color5 {
+      background: #f37d26;
+    }
+    &.color6 {
+      background: #196e2a;
+    }
+    &.color7 {
+      background: #8d5c5c;
+    }
+    &.color8 {
+      background: #f5478f;
+    }
+    &.color9 {
+      background: #61cbee;
+      color: rgba(#000, 0.2);
+    }
+    &.color10 {
+      background: gray;
+    }
+    &.color11 {
+      background: #bdbe5e;
+    }
+    &.color12 {
+      background: #17285a;
+    }
+    &.color13 {
+      background: #0eb89c;
+    }
+    &:nth-child(1) {
+      bottom: 4px;
+    }
+    &:nth-child(2) {
+      bottom: 38px;
+    }
+    &:nth-child(3) {
+      bottom: 72px;
+    }
+    &:nth-child(4) {
+      bottom: 106px;
+    }
+    transition: 0.2s ease all;
+  }
+  &.checked {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgb(206, 209, 216) 100%);
+    .ball:last-child {
+      transform: translateY(-22px);
+    }
+  }
+  &.completed {
+    background: rgba(yellow, 0.8);
+    animation: tube-completed 0.4s;
+  }
 
-    @keyframes tube-completed {
-        50% {
-            transform: scale(1.1);
-        }
-        100% {
-            transform: scale(1);
-        }
-      }
+  @keyframes tube-completed {
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
 }
 
-
 #countdown {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 8px 15px;
-    display: block;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    font-size: 13px;
-    color: #FFF;
-    font-weight: bold;
-    text-shadow: 2px 0 5px rgba(#000,.3);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 8px 15px;
+  display: block;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 2px 0 5px rgba(#000, 0.3);
 }
 
 .winner {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(#000,.2);
-    z-index: 100;
-    cursor: pointer;
-    h2 {
-        font-size: 2rem;
-        color: #000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(#000, 0.2);
+  z-index: 100;
+  cursor: pointer;
+  h2 {
+    font-size: 2rem;
+    color: #000;
+  }
+  div {
+    h2,
+    p {
+      margin: 0;
     }
-    div {
-        h2,p {
-            margin: 0;
-        }
-        font-size: 18px;
-        width: 300px;
-        height: 300px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: #FFF;
-        border-radius: 100px;
-        padding-top: 50px;
-        box-shadow: 0 0 30px rgb(0 0 0 / 20%);
-    }
-    .galeta {
-        margin: 0;
-        font-size: 120px;
-    }
+    font-size: 18px;
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border-radius: 100px;
+    padding-top: 50px;
+    box-shadow: 0 0 30px rgb(0 0 0 / 20%);
+  }
+  .galeta {
+    margin: 0;
+    font-size: 120px;
+  }
 }
 
-
 body.darkmode {
-    background: #111;
-    color: #FFF;
+  background: #111;
+  color: #fff;
 }
 
 .game-header-boles {
-    background-image: url("img/boles.jpg");
+  background-image: url("img/boles.jpg");
 }
 
 body.dracmode {
-    .game-header-boles {
-        height: 160px;
-        background-image: url("img/drac.gif");
-    }
-    .game {
-        transform: rotate(180deg);
-    }
+  .game-header-boles {
+    height: 160px;
+    background-image: url("img/drac.gif");
+  }
+  .game {
+    transform: rotate(180deg);
+  }
 }

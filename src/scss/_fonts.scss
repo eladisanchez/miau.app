@@ -1,25 +1,21 @@
 @font-face {
-    font-family: 'Eina';
-    font-display: swap;
-    src: local('Eina Bold'),
-         url('fonts/eina-01-bold.woff2') format('woff2'),
-         url('fonts/eina-01-bold.woff') format('woff'),
-         url('fonts/eina-01-bold.ttf') format('ttf'),
-         url('fonts/eina-01-bold.eot?#iefix') format('eot');
-    font-weight: 700;
-    unicode-range: U+000-5FF;
+  font-family: "Eina";
+  font-display: swap;
+  src: local("Eina Bold"), url("fonts/eina-01-bold.woff2") format("woff2"),
+    url("fonts/eina-01-bold.woff") format("woff"), url("fonts/eina-01-bold.ttf") format("ttf"),
+    url("fonts/eina-01-bold.eot?#iefix") format("eot");
+  font-weight: 700;
+  unicode-range: U+000-5FF;
 }
 
 @font-face {
-    font-family: 'Eina';
-    font-display: swap;
-    src: local('Eina  Regular'),
-         url('fonts/eina-01-regular.woff2') format('woff2'),
-         url('fonts/eina-01-regular.woff') format('woff'),
-         url('fonts/eina-01-regular.ttf') format('ttf'),
-         url('fonts/eina-01-regular.eot?#iefix') format('eot');
-    font-weight: 400;
-    unicode-range: U+000-5FF;
+  font-family: "Eina";
+  font-display: swap;
+  src: local("Eina  Regular"), url("fonts/eina-01-regular.woff2") format("woff2"),
+    url("fonts/eina-01-regular.woff") format("woff"), url("fonts/eina-01-regular.ttf") format("ttf"),
+    url("fonts/eina-01-regular.eot?#iefix") format("eot");
+  font-weight: 400;
+  unicode-range: U+000-5FF;
 }
 
 /*

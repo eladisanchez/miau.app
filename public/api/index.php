@@ -8,7 +8,7 @@ use Slim\Factory\AppFactory;
 
 require '../../vendor/autoload.php';
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/../../');
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../');
 $dotenv->load();
 
 $servername = $_ENV["DB_SERVER"];
@@ -44,12 +44,11 @@ $app->get('/api/index.php', function (Request $request, Response $response, $arg
 
     $response->getBody()->write($data);
     return $response->withHeader('Content-Type', 'application/json');
-
 });
 
 // Set balls
 $app->post('/api/index.php', function (Request $request, Response $response, $args) use ($conn) {
-    
+
     try {
 
         $post = json_decode($request->getBody());
@@ -59,8 +58,8 @@ $app->post('/api/index.php', function (Request $request, Response $response, $ar
         $ip = $_SERVER["REMOTE_ADDR"];
         $userid = $post->userid;
         $game = $post->game ?? 'boles';
-        
-        $insert1 = $conn->prepare( "INSERT INTO partides (game,userid,cookies,newcookies) VALUES ( :game, :userid, :cookies, :newcookies )" );
+
+        $insert1 = $conn->prepare("INSERT INTO partides (game,userid,cookies,newcookies) VALUES ( :game, :userid, :cookies, :newcookies )");
         $ex1 = $insert1->execute([
             ':game' => $game,
             ':userid' => $userid,
@@ -68,7 +67,7 @@ $app->post('/api/index.php', function (Request $request, Response $response, $ar
             ':newcookies' => $newgaletes
         ]);
 
-        $insert = $conn->prepare( "INSERT INTO boles (userid,ip,nom,galetes,created_at)
+        $insert = $conn->prepare("INSERT INTO boles (userid,ip,nom,galetes,created_at)
         VALUES (:userid, :ip, :nom, :galetes, NOW())
         ON DUPLICATE KEY UPDATE galetes = case when :galetes > galetes then :galetes else galetes end");
         $ex = $insert->execute([
@@ -77,24 +76,21 @@ $app->post('/api/index.php', function (Request $request, Response $response, $ar
             ':nom' => $nom,
             ':galetes' => $galetes
         ]);
-        
+
         $stmt = $conn->prepare("SELECT * FROM boles WHERE userid=?");
         $stmt->execute([$userid]);
         $lastrow = $stmt->fetchObject();
         $data = json_encode($lastrow);
         $response->getBody()->write($data);
         return $response->withHeader('Content-Type', 'application/json');
-
-    } catch(PDOException $e) {
+    } catch (PDOException $e) {
 
         $data = json_encode([
-            'error'=> $e->getMessage()
+            'error' => $e->getMessage()
         ]);
         $response->getBody()->write($data);
         return $response->withHeader('Content-Type', 'application/json')->withStatus(500);
-       
     }
-
 });
 
 // Load user data
@@ -113,7 +109,6 @@ $app->post('/api/loadUser/', function (Request $request, Response $response, $ar
     $data = json_encode($user);
     $response->getBody()->write($data);
     return $response->withHeader('Content-Type', 'application/json');
-
 });
 
 // Change name
@@ -123,19 +118,18 @@ $app->post('/api/changeName/', function (Request $request, Response $response, $
     $userid = $post->userid;
     $nom = $post->name;
 
-    $insert1 = $conn->prepare( "UPDATE boles SET nom=:nom WHERE userid=:userid" );
+    $insert1 = $conn->prepare("UPDATE boles SET nom=:nom WHERE userid=:userid");
     $ex1 = $insert1->execute([
         ':userid' => $userid,
         ':nom' => $nom
     ]);
-    
+
     $stmt = $conn->prepare("SELECT * FROM boles WHERE userid=?");
     $stmt->execute([$userid]);
     $user = $stmt->fetchObject();
     $data = json_encode($user);
     $response->getBody()->write($data);
     return $response->withHeader('Content-Type', 'application/json');
-
 });
 
 $app->run();

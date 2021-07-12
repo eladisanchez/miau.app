@@ -22,7 +22,7 @@ export default {
         return "minesweeper-bomb";
       }
       if (cell.isOpen) {
-        return "minesweeper-open n"+cell.bombCount;
+        return "minesweeper-open n" + cell.bombCount;
       }
       if (cell.hasFlag) {
         return "minesweeper-flag";
@@ -48,7 +48,7 @@ export default {
       position: absolute;
       top: 55%;
       left: 50%;
-      transform: translate(-50%,-50%);
+      transform: translate(-50%, -50%);
       font-size: 18px;
     }
   }
@@ -62,9 +62,9 @@ export default {
     -webkit-animation-name: tada;
     animation-name: tada;
     -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
   }
   &-open {
     background: #eee;
@@ -95,13 +95,19 @@ export default {
     -ms-transform: scale3d(1, 1, 1);
     transform: scale3d(1, 1, 1);
   }
-  10%, 20% {
-    transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -6deg);
+  10%,
+  20% {
+    transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -6deg);
   }
-  30%, 50%, 70%, 90% {
+  30%,
+  50%,
+  70%,
+  90% {
     transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 6deg);
   }
-  40%, 60%, 80% {
+  40%,
+  60%,
+  80% {
     transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -6deg);
   }
   100% {

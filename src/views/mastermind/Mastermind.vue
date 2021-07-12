@@ -1,26 +1,40 @@
 <template>
   <section class="container">
     <div class="game-header game-header-mastermind">
-      <h2>
-        Mastermind
-      </h2>
+      <h2>Mastermind</h2>
       <transition name="fade">
         <div id="countdown" v-if="multi">{{ timeleft }}" 🍪 x2</div>
       </transition>
     </div>
 
     <div class="mmboard">
-      <div class="mmcode" :class="!(winner||loser)?'hidden':''">
-          <span class="mmb" v-for="(color,i) in code" :key="i" :class="'color'+color">?</span>
-          <button class="btn btn-new" @click="createLevel()"></button>
+      <div class="mmcode" :class="!(winner || loser) ? 'hidden' : ''">
+        <span
+          class="mmb"
+          v-for="(color, i) in code"
+          :key="i"
+          :class="'color' + color"
+          >?</span
+        >
+        <button class="btn btn-new" @click="createLevel()"></button>
       </div>
       <div class="mmguesses">
-        <div class="mmguess" v-for="(comb,i) in guess" :key="'comb'+i">
+        <div class="mmguess" v-for="(comb, i) in guess" :key="'comb' + i">
           <div class="ballcontainer">
-            <span class="mmb" v-for="(color,c) in comb" :key="'comb'+i+c" :class="'color'+color"></span>
+            <span
+              class="mmb"
+              v-for="(color, c) in comb"
+              :key="'comb' + i + c"
+              :class="'color' + color"
+            ></span>
           </div>
-          <div class="hint" v-if="comb.length==4">
-            <span class="hintball" :class="'h'+h" v-for="(h,hi) in hints[i]" :key="'h'+i+hi"></span>
+          <div class="hint" v-if="comb.length == 4">
+            <span
+              class="hintball"
+              :class="'h' + h"
+              v-for="(h, hi) in hints[i]"
+              :key="'h' + i + hi"
+            ></span>
           </div>
         </div>
       </div>
@@ -39,7 +53,7 @@
       <div class="winner" v-if="winner" @click="createLevel()">
         <div>
           <h2>Molt bé</h2>
-          <p>Has guanyat {{points}} galetes</p>
+          <p>Has guanyat {{ points }} galetes</p>
           <p class="galeta">🍪</p>
         </div>
       </div>
@@ -54,7 +68,6 @@
         </div>
       </div>
     </transition>
-
   </section>
 </template>
 <script>
@@ -65,46 +78,46 @@ export default {
       multiTimer: null,
       timeleft: 0,
       guesses: 0,
-      guess: [[],[],[],[],[],[],[],[]],
+      guess: [[], [], [], [], [], [], [], []],
       code: [],
       winner: false,
-      loser: false
+      loser: false,
     };
   },
   computed: {
     points() {
-      var points = (9-this.guesses);
+      var points = 9 - this.guesses;
       if (this.multi) points *= 2;
       return points;
     },
     hints() {
       let hints = [];
-      this.guess.forEach((balls,g)=>{
-          var copycode = [...this.code];
-          hints[g] = []
-          balls.forEach((ball,i)=>{
-            if(copycode[i]==ball) {
-              copycode[i] = -1;
-              hints[g].push(2)
-            }
-          })
-          balls.forEach((ball,j)=>{
-            if (copycode.includes(ball)) {
-              hints[g].push(1)
-              copycode[copycode.indexOf(balls[j])] = -1;
-            }
-          })
-          hints[g].sort().reverse()
+      this.guess.forEach((balls, g) => {
+        var copycode = [...this.code];
+        hints[g] = [];
+        balls.forEach((ball, i) => {
+          if (copycode[i] == ball) {
+            copycode[i] = -1;
+            hints[g].push(2);
+          }
+        });
+        balls.forEach((ball, j) => {
+          if (copycode.includes(ball)) {
+            hints[g].push(1);
+            copycode[copycode.indexOf(balls[j])] = -1;
+          }
+        });
+        hints[g].sort().reverse();
       });
-      return hints
-    }
+      return hints;
+    },
   },
   methods: {
     createLevel() {
-      this.code = []
-      this.guess = [[],[],[],[],[],[],[],[]];
+      this.code = [];
+      this.guess = [[], [], [], [], [], [], [], []];
       this.guesses = 0;
-      let colors = [0,1,2,3,4,5];
+      let colors = [0, 1, 2, 3, 4, 5];
       colors.sort(() => Math.random() - 0.5);
       this.code = colors.slice(0, 4);
       /*for(let i = 0; i<4; i++) {
@@ -117,13 +130,15 @@ export default {
     },
     setBall(color) {
       this.guess[this.guesses].push(color);
-      if(this.guess[this.guesses].length==4) {
-        if(JSON.stringify(this.guess[this.guesses])==JSON.stringify(this.code)) {
-          this.win()
+      if (this.guess[this.guesses].length == 4) {
+        if (
+          JSON.stringify(this.guess[this.guesses]) == JSON.stringify(this.code)
+        ) {
+          this.win();
         } else {
-          this.guesses++
-          if(this.guesses>7) {
-            this.lose()
+          this.guesses++;
+          if (this.guesses > 7) {
+            this.lose();
           }
         }
       }
@@ -137,9 +152,9 @@ export default {
       setTimeout(() => {
         this.winner = true;
       }, 150);
-      this.$store.dispatch("saveCookies",{
+      this.$store.dispatch("saveCookies", {
         cookies: this.points,
-        game: 'master'
+        game: "master",
       });
     },
     lose() {
@@ -158,16 +173,16 @@ export default {
         }
         this.timeleft -= 1;
       }, 1000);
-    }
+    },
   },
   created() {
     this.createLevel();
-  }
+  },
 };
 </script>
 <style lang="scss">
 .game-header-mastermind {
-  margin-bottom:0;
+  margin-bottom: 0;
   height: 100px !important;
   background-image: url("../../scss/img/mastermind.jpg");
 }
@@ -192,23 +207,37 @@ export default {
   display: inline-block;
 
   width: 34px;
-        height: 34px;
-        border-radius: 30px;
-        padding-top: 6px;
-        color: rgba(#000,.4);
-        text-align: center;
-        font-size: 14px;
-        line-height: 22px;
+  height: 34px;
+  border-radius: 30px;
+  padding-top: 6px;
+  color: rgba(#000, 0.4);
+  text-align: center;
+  font-size: 14px;
+  line-height: 22px;
   margin: 0 10px 0;
-  &.color0 { background: #E71F1F; }
-  &.color1 { background: #355FDC; }
-  &.color2 { background: #85E631; color: rgba(#000,.2);}
-  &.color3 { background: #FBDD23; color: rgba(#000,.2);}
-  &.color4 { background: #B622DC; }
-  &.color5 { background: #F37D26; }
-  -webkit-animation: bounceIn .4s;
-  -o-animation: bounceIn .4s;
-  animation: bounceIn .4s;
+  &.color0 {
+    background: #e71f1f;
+  }
+  &.color1 {
+    background: #355fdc;
+  }
+  &.color2 {
+    background: #85e631;
+    color: rgba(#000, 0.2);
+  }
+  &.color3 {
+    background: #fbdd23;
+    color: rgba(#000, 0.2);
+  }
+  &.color4 {
+    background: #b622dc;
+  }
+  &.color5 {
+    background: #f37d26;
+  }
+  -webkit-animation: bounceIn 0.4s;
+  -o-animation: bounceIn 0.4s;
+  animation: bounceIn 0.4s;
 }
 .mmcode {
   border-bottom: 1px solid #999;
@@ -218,17 +247,19 @@ export default {
   justify-content: left;
   padding-left: 40px;
   position: relative;
-  &.hidden .mmb { background: #ddd; } 
+  &.hidden .mmb {
+    background: #ddd;
+  }
   .btn {
-        display: block;
-        position: absolute;
-        top: 6px;
-        right: 30px;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: auto 25px;
-        height: 40px;
-    }
+    display: block;
+    position: absolute;
+    top: 6px;
+    right: 30px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto 25px;
+    height: 40px;
+  }
 }
 .mmguess {
   position: relative;
@@ -236,7 +267,6 @@ export default {
   order: -1;
   border-bottom: 1px solid #eee;
   display: flex;
-
 }
 .mmguesses {
   display: flex;
@@ -252,14 +282,14 @@ export default {
     margin: 0 7px;
   }
   .btn {
-        display: block;
-        position: absolute;
-        right: 30px;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: auto 25px;
-        height: 40px;
-    }
+    display: block;
+    position: absolute;
+    right: 30px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto 25px;
+    height: 40px;
+  }
 }
 .hint {
   margin-left: 0;
@@ -275,7 +305,7 @@ export default {
     border-radius: 10px;
     margin: 0 5px;
     &.h0 {
-      background: #FFF;
+      background: #fff;
     }
     &.h1 {
       background: #fff;
@@ -286,22 +316,27 @@ export default {
   }
 }
 @keyframes bounceIn {
-  0%, 20%, 40%, 60%, 80%, 100% {
-    -webkit-transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
-    transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  0%,
+  20%,
+  40%,
+  60%,
+  80%,
+  100% {
+    -webkit-transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
   }
   0% {
     opacity: 0;
-    -webkit-transform: scale3d(.3, .3, .3);
-    transform: scale3d(.3, .3, .3);
+    -webkit-transform: scale3d(0.3, 0.3, 0.3);
+    transform: scale3d(0.3, 0.3, 0.3);
   }
   20% {
     -webkit-transform: scale3d(1.1, 1.1, 1.1);
     transform: scale3d(1.1, 1.1, 1.1);
   }
   40% {
-    -webkit-transform: scale3d(.9, .9, .9);
-    transform: scale3d(.9, .9, .9);
+    -webkit-transform: scale3d(0.9, 0.9, 0.9);
+    transform: scale3d(0.9, 0.9, 0.9);
   }
   60% {
     opacity: 1;
@@ -309,8 +344,8 @@ export default {
     transform: scale3d(1.03, 1.03, 1.03);
   }
   80% {
-    -webkit-transform: scale3d(.97, .97, .97);
-    transform: scale3d(.97, .97, .97);
+    -webkit-transform: scale3d(0.97, 0.97, 0.97);
+    transform: scale3d(0.97, 0.97, 0.97);
   }
   100% {
     opacity: 1;

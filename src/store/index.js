@@ -48,14 +48,14 @@ export default new Vuex.Store({
 			state.user = null;
 			state.userId = null;
 		},
-		SET_LANG(state,lang) {
+		SET_LANG(state, lang) {
 			state.lang = lang;
 			localStorage.setItem('lang', lang);
 		}
 	},
 	actions: {
-    
-		login({ commit, state },user) {
+
+		login({ commit, state }, user) {
 			// Generar una ID d'usuari si no en té
 			if (!state.userId) {
 				let randomHash = Math.random().toString(36).substr(2);
@@ -75,7 +75,7 @@ export default new Vuex.Store({
 			}
 		},
 
-		saveCookies({ commit, state }, {cookies,game}) {
+		saveCookies({ commit, state }, { cookies, game }) {
 			commit('ADD_COOKIES', cookies);
 			fetch('/api/index.php', {
 				method: 'POST',
@@ -127,14 +127,14 @@ export default new Vuex.Store({
 				headers: {
 					'Content-Type': 'application/json'
 				}
-      })
-        .then((res)=>{
-          return res.json();
-        })
-        .then((json)=> {
-          commit('SET_USER_DATA', json);
-          alert('Hola ' + json.nom);
-        })
+			})
+				.then((res) => {
+					return res.json();
+				})
+				.then((json) => {
+					commit('SET_USER_DATA', json);
+					alert('Hola ' + json.nom);
+				})
 		}
 
 	}

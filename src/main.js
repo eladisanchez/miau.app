@@ -16,8 +16,8 @@ Vue.use(Vue2TouchEvents)
 
 Vue.config.productionTip = false
 
-if ( !(window.navigator && window.navigator.vibrate) ) {
-  window.navigator.vibrate = function(rum) {
+if (!(window.navigator && window.navigator.vibrate)) {
+  window.navigator.vibrate = function (rum) {
     console.log(rum);
   }
 }

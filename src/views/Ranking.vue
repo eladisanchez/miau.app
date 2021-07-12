@@ -1,28 +1,54 @@
 <template>
   <section class="ranking">
     <div class="container">
-    <h2>{{$t('ranquing')}}</h2>
-    <div class="order-ranking">
-      <button class="btn" @click="sortby='month'" :class="sortby=='month'?'selected':''"><img src="../scss/img/calendar.svg">{{month}}</button>
-      <button class="btn" @click="sortby='total'" :class="sortby=='total'?'selected':''"><img src="../scss/img/medal.svg">Total</button>
-    </div>
-    <transition name="fade" mode="out-in">
-    <div class="ranking-list" v-if="loaded">
-      <table class="ranking-table">
-        <tr v-for="(player, i) in ranking" :key="'player'+i">
-          <td><span class="pos">{{parseInt(i+1)}}</span><strong>{{ player.nom }}</strong> <small>{{player.updated | timeago}}</small></td>
-          <td class="text-center" :class="sortby=='month'?'r-month':''">{{numFormat(player.monthcookies)}}</td>
-          <td class="text-center" :class="sortby=='total'?'r-month':''">{{numFormat(player.galetes)}}</td>
-        </tr>
-      </table>
-      <!--<p v-for="(player, i) in players" :key="'player'+i">
+      <h2>{{ $t("ranquing") }}</h2>
+      <div class="order-ranking">
+        <button
+          class="btn"
+          @click="sortby = 'month'"
+          :class="sortby == 'month' ? 'selected' : ''"
+        >
+          <img src="../scss/img/calendar.svg" />{{ month }}
+        </button>
+        <button
+          class="btn"
+          @click="sortby = 'total'"
+          :class="sortby == 'total' ? 'selected' : ''"
+        >
+          <img src="../scss/img/medal.svg" />Total
+        </button>
+      </div>
+      <transition name="fade" mode="out-in">
+        <div class="ranking-list" v-if="loaded">
+          <table class="ranking-table">
+            <tr v-for="(player, i) in ranking" :key="'player' + i">
+              <td>
+                <span class="pos">{{ parseInt(i + 1) }}</span
+                ><strong>{{ player.nom }}</strong>
+                <small>{{ player.updated | timeago }}</small>
+              </td>
+              <td
+                class="text-center"
+                :class="sortby == 'month' ? 'r-month' : ''"
+              >
+                {{ numFormat(player.monthcookies) }}
+              </td>
+              <td
+                class="text-center"
+                :class="sortby == 'total' ? 'r-month' : ''"
+              >
+                {{ numFormat(player.galetes) }}
+              </td>
+            </tr>
+          </table>
+          <!--<p v-for="(player, i) in players" :key="'player'+i">
         <span class="pos">{{parseInt(i+1)}}.</span>
         <span class="galetes">{{player.galetes}}</span>
         <strong :class="player.userid==$parent.userId&&player.nom!='Ningú'?'tu':''">{{ player.nom }}</strong>
         <small>{{player.updated | timeago}}</small>
       </p>-->
-    </div>
-    </transition>
+        </div>
+      </transition>
     </div>
   </section>
 </template>
@@ -32,71 +58,70 @@ export default {
     return {
       loaded: false,
       players: [],
-      sortby: 'month'
+      sortby: "month",
     };
   },
   methods: {
     numFormat(num) {
-      if(num)
-      return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+      if (num) return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
     },
     fetchData() {
       fetch("https://miau.app/api/index.php", {
-        method: "GET"
+        method: "GET",
       })
-        .then(response =>{
+        .then((response) => {
           return response.json();
         })
-        .then(myJson =>{
-          this.loaded = true
-          this.players = myJson
+        .then((myJson) => {
+          this.loaded = true;
+          this.players = myJson;
         })
-        .catch(res => {
+        .catch((res) => {
           console.log(res);
         });
     },
     close() {
-      this.$router.go(-1)
-    }
+      this.$router.go(-1);
+    },
   },
   created() {
     this.fetchData();
   },
   computed: {
-    userid(){
-      return this.$store.getters.user.userId
+    userid() {
+      return this.$store.getters.user.userId;
     },
     ranking() {
       var players = this.players;
-      if(this.sortby=='month') {
-        players.sort((a, b) =>  b.monthcookies - a.monthcookies)
+      if (this.sortby == "month") {
+        players.sort((a, b) => b.monthcookies - a.monthcookies);
       } else {
-        players.sort((a, b) => b.galetes - a.galetes)
+        players.sort((a, b) => b.galetes - a.galetes);
       }
-      return players.slice(0,200);
+      return players.slice(0, 200);
     },
-    month(){
+    month() {
       var date = new Date();
       var mesos = {
-        0: 'Gener',
-        1: 'Febrer',
-        2: 'Març',
-        3: 'Abril',
-        4: 'Maig',
-        5: 'Juny',
-        6: 'Juliol',
-        7: 'Agost',
-        8: 'Setembre',
-        9: 'Octubre',
-        10: 'Novembre',
-        11: 'Desembre'
-      }
-      return mesos[date.getMonth()]
-    }
+        0: "Gener",
+        1: "Febrer",
+        2: "Març",
+        3: "Abril",
+        4: "Maig",
+        5: "Juny",
+        6: "Juliol",
+        7: "Agost",
+        8: "Setembre",
+        9: "Octubre",
+        10: "Novembre",
+        11: "Desembre",
+      };
+      return mesos[date.getMonth()];
+    },
   },
   watch: {
-    $route: "fetchData"
-  }
+    $route: "fetchData",
+  },
 };
 </script>
 <style lang="scss">
@@ -130,10 +155,11 @@ export default {
   border-collapse: collapse;
   th {
     font-size: 10px;
-    font-family: 'Eina',sans-serif;
+    font-family: "Eina", sans-serif;
     padding: 4px 6px;
   }
-  td,th {
+  td,
+  th {
     padding: 4px 2px;
   }
 }
@@ -141,7 +167,7 @@ export default {
   background: rgba(22, 39, 49, 0.1);
 }
 .ranking {
-  background: #FFF;
+  background: #fff;
   position: fixed;
   top: 48px;
   bottom: 48px;
@@ -198,7 +224,8 @@ export default {
   .tu {
     color: orangered;
   }
-  small,.timeago {
+  small,
+  .timeago {
     color: rgb(185, 189, 197);
     margin-left: 6px;
     font-size: 9px;
