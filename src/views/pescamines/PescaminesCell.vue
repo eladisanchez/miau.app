@@ -67,7 +67,7 @@ export default {
     animation-fill-mode: both;
   }
   &-open {
-    background: #eee;
+    background: rgba(22, 43, 65, 0.116);
     box-shadow: none;
     &.n1 {
       color: blue;

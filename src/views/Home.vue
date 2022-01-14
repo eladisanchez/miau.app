@@ -47,16 +47,6 @@ export default {
 };
 </script>
 <style lang="scss">
-.home {
-  background-image: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 1) 28%,
-    rgba(224, 229, 231, 1) 100%
-  );
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-}
 .hola-nom {
   margin: 0;
 }

@@ -65,7 +65,7 @@
   position: relative;
   cursor: pointer;
   transition: 0.2s ease all;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgb(224, 226, 231) 100%);
+  background: linear-gradient(180deg, rgba(0,0,0, 0) 0%, rgb(0,0,0,.1) 100%);
   .darkmode & {
     border-color: #fff;
   }
@@ -142,7 +142,7 @@
     transition: 0.2s ease all;
   }
   &.checked {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgb(206, 209, 216) 100%);
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgb(0,0,0,.2) 100%);
     .ball:last-child {
       transform: translateY(-22px);
     }
@@ -202,7 +202,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     background: #fff;
-    border-radius: 100px;
+    border-radius: 400px;
     padding-top: 50px;
     box-shadow: 0 0 30px rgb(0 0 0 / 20%);
   }

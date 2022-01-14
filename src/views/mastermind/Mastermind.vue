@@ -265,7 +265,7 @@ export default {
   position: relative;
   height: 50px;
   order: -1;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid rgba(22, 43, 65, 0.116);
   display: flex;
 }
 .mmguesses {

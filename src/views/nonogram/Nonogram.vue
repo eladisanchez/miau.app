@@ -348,13 +348,13 @@ export default {
   span.h {
     padding-top: 200%;
     position: relative;
-    background: #fff;
+    background: transparent;
     line-height: 1;
     border-radius: 10px 10px 0 0;
     background: linear-gradient(
       180deg,
-      rgba(255, 255, 255, 1) 0%,
-      rgb(224, 226, 231) 100%
+      rgba(22, 43, 65, 0) 0%,
+      rgb(22, 43, 65, 0.116) 100%
     );
     //border-left: 1px solid #fff;
     border-right: 1px solid #fff;
@@ -366,11 +366,11 @@ export default {
     padding-top: 100%;
     //box-shadow: 0 0 2px #ccc inset;
     border-width: 0 1px 1px 0;
-    border-color: rgb(224, 226, 231);
+    border-color: rgb(22, 43, 65, 0.116);
     border-style: solid;
   }
   span.q {
-    background: #fff !important;
+    background: transparent;
     border: 0 !important;
     box-shadow: none;
   }
@@ -381,8 +381,8 @@ export default {
     //background: linear-gradient(90deg, #FFF 70%, #efefef 100%);
     background: linear-gradient(
       90deg,
-      rgba(255, 255, 255, 1) 0%,
-      rgb(224, 226, 231) 100%
+      rgba(22, 43, 65, 0) 0%,
+      rgba(22, 43, 65, 0.116) 100%
     );
     //box-shadow: 0 0 5px #ddd inset;
 
@@ -399,7 +399,7 @@ export default {
     transform: translate(-50%, -50%);
   }
   span {
-    background: #fff;
+    background: transparent;
     display: block;
     height: 0;
     &.completed {

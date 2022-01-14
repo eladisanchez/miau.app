@@ -23,6 +23,10 @@ html {
 body {
   margin: 0 auto;
   background-color: #fff;
+  background-image: linear-gradient(
+    rgba(255, 255, 255, 1) 28%,
+    rgba(224, 229, 231, 1) 100%
+  );
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center top;
